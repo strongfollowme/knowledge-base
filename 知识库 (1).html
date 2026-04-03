@@ -1,0 +1,2941 @@
+<html lang="zh"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>工作知识内容</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f6fb;
+  --bg2: #ffffff;
+  --surface: #ffffff;
+  --surface2: #f0f2f8;
+  --surface3: #e4e8f4;
+  --border: #dde1ee;
+  --border2: #c8cee0;
+  --accent: #2b7ef0;
+  --accent-glow: rgba(43,126,240,0.12);
+  --accent2: #e07b20;
+  --accent3: #1aab6d;
+  --accent4: #e03030;
+  --text: #1a1e2e;
+  --text-muted: #5a6380;
+  --text-dim: #9aa0b8;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'Noto Sans SC', sans-serif;
+  --radius: 10px;
+  --shadow: 0 2px 16px rgba(60,80,160,0.08);
+  --shadow2: 0 4px 24px rgba(60,80,160,0.13);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* HEADER */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 0 var(--border), 0 2px 8px rgba(60,80,160,0.05);
+}
+
+.app-logo {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+.app-logo span { color: var(--text-dim); }
+
+.search-wrap {
+  flex: 1;
+  position: relative;
+  max-width: 440px;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+}
+#globalSearch {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px 7px 34px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#globalSearch:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  background: var(--bg2);
+}
+#globalSearch::placeholder { color: var(--text-dim); }
+
+/* SEARCH RESULTS */
+#searchResults {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow2);
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: 200;
+}
+.search-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: var(--surface2); }
+.search-item-tab { font-size: 0.72rem; color: var(--accent); font-family: var(--mono); margin-bottom: 2px; }
+.search-item-title { font-size: 0.88rem; font-weight: 500; color: var(--text); }
+.search-item-preview { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+mark { background: rgba(43,126,240,0.15); color: var(--accent); border-radius: 2px; padding: 0 1px; }
+.no-results { padding: 16px; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+
+/* TABS BAR */
+.tabs-container {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: 53px;
+  z-index: 90;
+  padding: 0 4px;
+}
+.tabs-container::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 42px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  user-select: none;
+}
+.tab-btn:hover { color: var(--text); background: var(--surface2); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--surface2); }
+.tab-btn.dragging { opacity: 0.4; }
+.tab-btn.drag-over { border-left: 2px solid var(--accent2); }
+
+.tab-edit-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 3px;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1;
+}
+.tab-btn:hover .tab-edit-btn,
+.tab-btn.active .tab-edit-btn { display: flex; align-items: center; }
+.tab-edit-btn:hover { color: var(--accent4); background: rgba(224,48,48,0.08); }
+
+.add-tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  height: 42px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.add-tab-btn:hover { color: var(--accent3); }
+
+/* MAIN */
+.main {
+  padding: 20px 16px 60px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* PANEL HEADER */
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.panel-title-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(43,126,240,0.15);
+}
+
+.add-section-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--accent3);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.add-section-btn:hover { background: var(--surface3); border-color: var(--accent3); }
+
+/* SECTION */
+.k-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.k-section:hover { box-shadow: var(--shadow); }
+.k-section.dragging-section { opacity: 0.4; }
+.k-section.drag-over-section { border-color: var(--accent2); box-shadow: 0 0 0 2px rgba(224,123,32,0.18); }
+
+.k-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  cursor: grab;
+  user-select: none;
+}
+.k-section-header:active { cursor: grabbing; }
+.drag-handle { color: var(--text-dim); display: flex; align-items: center; flex-shrink: 0; }
+.k-section-title { flex: 1; font-weight: 600; font-size: 0.9rem; color: var(--text); }
+.k-section-actions { display: flex; gap: 4px; align-items: center; }
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.icon-btn:hover { color: var(--text); background: var(--surface3); }
+.icon-btn.danger:hover { color: var(--accent4); background: rgba(224,48,48,0.08); }
+.icon-btn.add:hover { color: var(--accent3); background: rgba(26,171,109,0.08); }
+
+/* ITEMS */
+.k-items { padding: 2px 0; }
+.k-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+  cursor: grab;
+  user-select: none;
+  position: relative;
+}
+.k-item:last-child { border-bottom: none; }
+.k-item:hover { background: var(--surface2); }
+.k-item:active { cursor: grabbing; }
+.k-item.dragging-item { opacity: 0.4; }
+.k-item.drag-over-item { border-top: 2px solid var(--accent); }
+
+.item-drag { color: var(--text-dim); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; }
+.item-body { flex: 1; min-width: 0; }
+.item-title { font-weight: 500; font-size: 0.88rem; color: var(--text); margin-bottom: 4px; }
+.item-content { font-size: 0.83rem; color: var(--text-muted); line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+.item-content code {
+  font-family: var(--mono);
+  background: #eef2ff;
+  border: 1px solid #c5d0f0;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: #2b57d0;
+}
+.item-content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(43,126,240,0.3); }
+.item-content a:hover { border-bottom-color: var(--accent); }
+
+/* TABLE */
+.item-table-wrap { overflow-x: auto; margin-top: 8px; border-radius: 6px; border: 1px solid var(--border); }
+.item-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; font-family: var(--mono); }
+.item-table th { background: var(--surface2); color: var(--text-muted); padding: 6px 10px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border); font-weight: 600; }
+.item-table td { padding: 6px 10px; border-top: 1px solid var(--border); color: var(--text); white-space: nowrap; }
+.item-table tr:hover td { background: var(--surface2); }
+
+.item-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+  margin-top: 1px;
+}
+.k-item:hover .item-actions { opacity: 1; }
+
+/* MOVE BTN */
+.icon-btn.move:hover { color: var(--accent2); background: rgba(224,123,32,0.08); }
+
+/* EMPTY STATE */
+.empty-state { padding: 36px 20px; text-align: center; color: var(--text-dim); font-size: 0.85rem; }
+.empty-state svg { margin-bottom: 10px; opacity: 0.25; }
+
+/* ITEM COUNT BADGE */
+.item-count { font-size: 0.72rem; background: var(--surface3); color: var(--text-muted); padding: 2px 7px; border-radius: 10px; font-family: var(--mono); }
+
+/* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(20,30,70,0.35);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 24px;
+  width: 100%;
+  max-width: 560px;
+  box-shadow: var(--shadow2);
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-title { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+.modal-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+.modal-input, .modal-textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-bottom: 14px;
+}
+.modal-textarea { min-height: 140px; resize: vertical; font-family: var(--mono); font-size: 0.82rem; line-height: 1.7; }
+.modal-input:focus, .modal-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); background: var(--bg2); }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+
+/* EDITOR TOOLBAR */
+.editor-toolbar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+  padding: 6px 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px 8px 0 0;
+  border-bottom: none;
+  flex-wrap: wrap;
+}
+.tb-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tb-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tb-btn svg { flex-shrink: 0; }
+.tb-sep { width: 1px; background: var(--border); margin: 2px 2px; }
+.modal-textarea.has-toolbar { border-radius: 0 0 8px 8px; }
+
+/* TABLE BUILDER */
+.table-builder {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.table-builder-title { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; justify-content: space-between; }
+.tb-grid { overflow-x: auto; }
+.tb-table { border-collapse: collapse; min-width: 100%; }
+.tb-table th, .tb-table td { padding: 3px; }
+.tb-table input {
+  padding: 5px 8px;
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  width: 110px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.tb-table input:focus { border-color: var(--accent); }
+.tb-table .header-input { background: var(--surface3); font-weight: 600; }
+.tb-controls { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tb-ctrl-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 0.77rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tb-ctrl-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tb-ctrl-btn.danger:hover { background: var(--accent4); border-color: var(--accent4); }
+.tb-apply-btn {
+  margin-left: auto;
+  padding: 5px 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: opacity 0.15s;
+}
+.tb-apply-btn:hover { opacity: 0.88; }
+
+/* BTNS */
+.btn { padding: 8px 18px; border-radius: 8px; border: none; font-family: var(--sans); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: opacity 0.2s, transform 0.1s; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); }
+.btn-secondary:hover { background: var(--surface3); }
+.btn-danger { background: rgba(224,48,48,0.08); color: var(--accent4); border: 1px solid rgba(224,48,48,0.25); }
+.btn-danger:hover { background: rgba(224,48,48,0.15); }
+
+/* TOAST */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text);
+  color: var(--bg2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow2);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* MOVE MODAL */
+.move-tabs-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.move-tab-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 0.88rem;
+  color: var(--text);
+  background: var(--surface2);
+}
+.move-tab-option:hover { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+.move-tab-sub { display: flex; flex-direction: column; gap: 4px; margin-left: 16px; }
+.move-sec-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background: var(--bg2);
+  transition: all 0.15s;
+}
+.move-sec-option:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* LINK PREVIEW */
+.link-inputs { display: flex; gap: 8px; margin-bottom: 14px; }
+.link-inputs .modal-input { margin-bottom: 0; flex: 1; }
+
+/* HIGHLIGHT */
+.highlight-section { animation: highlightPulse 1.5s ease; }
+@keyframes highlightPulse {
+  0% { box-shadow: 0 0 0 0 rgba(43,126,240,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(43,126,240,0.1); }
+  100% { box-shadow: none; }
+}
+
+/* COLLAPSIBLE TABLE BUILDER */
+.tb-collapse-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; }
+.tb-collapse-btn:hover { background: var(--surface3); color: var(--text-muted); }
+.tb-body { display: block; }
+.tb-body.hidden { display: none; }
+
+/* SAVE BUTTON */
+.save-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  margin-left: auto;
+}
+.save-btn:hover { background: var(--surface3); color: var(--text); }
+.save-btn.dirty {
+  background: var(--accent4);
+  color: #fff;
+  border-color: var(--accent4);
+  animation: savePulse 1.5s infinite;
+}
+.save-btn.dirty:hover { opacity: 0.88; animation: none; }
+@keyframes savePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(224,48,48,0.5); }
+  50% { box-shadow: 0 0 0 7px rgba(224,48,48,0); }
+}
+.save-status {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .app-logo { display: none; }
+  .main { padding: 14px 10px 60px; }
+  .modal { padding: 16px; }
+  .item-actions { opacity: 1; }
+  .save-status { display: none; }
+}
+
+/* GITHUB SETTINGS MODAL */
+.gh-setup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(20,30,70,0.45);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.gh-setup-overlay.open { display: flex; }
+.gh-setup-box {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow2);
+  animation: modalIn 0.2s ease;
+}
+.gh-setup-title { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.gh-setup-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; }
+.gh-setup-desc a { color: var(--accent); }
+.gh-field { margin-bottom: 14px; }
+.gh-field-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
+.gh-field input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.gh-field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); background: var(--bg2); }
+.gh-field input::placeholder { color: var(--text-dim); font-family: var(--sans); }
+.gh-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.gh-status {
+  font-size: 0.78rem;
+  padding: 8px 12px;
+  border-radius: 7px;
+  margin-bottom: 14px;
+  display: none;
+}
+.gh-status.ok { background: rgba(26,171,109,0.12); color: var(--accent3); border: 1px solid rgba(26,171,109,0.25); display: block; }
+.gh-status.err { background: rgba(224,48,48,0.08); color: var(--accent4); border: 1px solid rgba(224,48,48,0.2); display: block; }
+.gh-status.loading { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); display: block; }
+.save-btn.saving { background: var(--accent3); border-color: var(--accent3); color: #fff; animation: none; }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-logo">知识点</div>
+  <div class="search-wrap">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+    <input type="text" id="globalSearch" placeholder="搜索知识点…">
+    <div id="searchResults" style="display: none;"></div>
+  </div>
+  <span class="save-status" id="saveStatus"></span>
+  <button class="save-btn" id="saveFileBtn" onclick="saveToFile()" title="保存到 GitHub">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+    保存
+  </button>
+  <button class="icon-btn" id="ghSettingsBtn" onclick="openGhSettings()" title="GitHub 设置" style="flex-shrink:0">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
+</div>
+
+<!-- GitHub 设置弹窗 -->
+<div class="gh-setup-overlay" id="ghSetupOverlay">
+  <div class="gh-setup-box">
+    <div class="gh-setup-title">⚙️ GitHub 云端保存设置</div>
+    <div class="gh-setup-desc">
+      设置后，点「保存」将直接更新 GitHub 上的文件，手机无需下载。<br>
+      Token 只存在本机浏览器中，不会上传到任何地方。
+    </div>
+    <div class="gh-status" id="ghStatusMsg"></div>
+    <div class="gh-field">
+      <div class="gh-field-label">GitHub 用户名</div>
+      <input id="ghUser" placeholder="例：your-username" autocomplete="off" autocapitalize="off" spellcheck="false">
+    </div>
+    <div class="gh-field">
+      <div class="gh-field-label">仓库名称</div>
+      <input id="ghRepo" placeholder="例：knowledge-base" autocomplete="off" autocapitalize="off" spellcheck="false">
+    </div>
+    <div class="gh-field">
+      <div class="gh-field-label">文件路径（默认 index.html）</div>
+      <input id="ghPath" placeholder="例：index.html 或 docs/知识库.html" autocomplete="off" autocapitalize="off" spellcheck="false">
+    </div>
+    <div class="gh-field">
+      <div class="gh-field-label">Personal Access Token</div>
+      <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="gh-actions">
+      <button class="btn btn-secondary" onclick="closeGhSettings()">取消</button>
+      <button class="btn btn-secondary" onclick="testGhConnection()">测试连接</button>
+      <button class="btn btn-primary" onclick="saveGhSettings()">保存设置</button>
+    </div>
+  </div>
+</div>
+
+<div class="tabs-container" id="tabsBar"><button class="tab-btn" data-id="t1" draggable="true">
+      <span class="tab-label">【TDG関する】</span>
+      <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t1')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button></button><button class="tab-btn" data-id="t2" draggable="true">
+      <span class="tab-label">【カメラ関する】</span>
+      <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t2')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button></button><button class="tab-btn active" data-id="t3" draggable="true">
+      <span class="tab-label">【その他問題】</span>
+      <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t3')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button></button><button class="tab-btn" data-id="t4" draggable="true">
+      <span class="tab-label">【遠隔問題】</span>
+      <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t4')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button></button><button class="tab-btn" data-id="t5" draggable="true">
+      <span class="tab-label">【工事基準】</span>
+      <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t5')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button></button><button class="tab-btn" data-id="t6" draggable="true">
+      <span class="tab-label">【開発問題】</span>
+      <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t6')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button></button><button class="add-tab-btn" id="addTabBtn" title="新增分类">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+  </button></div>
+
+<div class="main" id="mainContent"><div class="tab-panel" id="panel_t1">
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot"></div><span>【TDG関する】</span></div>
+        <button class="add-section-btn" onclick="openAddSection('t1')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+          新增标题
+        </button>
+      </div>
+      <div class="sections-list" id="sections_t1">
+        
+      <div class="k-section" id="sec_s1" data-id="s1">
+    <div class="k-section-header" draggable="true" data-secid="s1" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">1. ルーターのポート開放設定（路由网络开通设定）</div>
+      <div class="k-section-actions">
+        <span class="item-count">2</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s1')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s1')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s1')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s1"><div class="k-item" id="item_i1" data-id="i1" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">LAN側IPアドレス</div>
+      <div class="item-content">192.168.10.10</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s1','i1')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s1','i1')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s1','i1')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_i2" data-id="i2" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">ポート変換登録情報</div>
+      <div class="item-table-wrap"><table class="item-table"><thead><tr><th>No.</th><th>ターゲットIP</th><th>プロトコル</th><th>LAN側ポート</th><th>操作</th></tr></thead><tbody><tr><td>1</td><td>192.168.10.150</td><td>HTTP (TCP:80)</td><td>80</td><td>OFF</td></tr><tr><td>2</td><td>192.168.10.150</td><td>TCPポート</td><td>8100</td><td>OFF</td></tr><tr><td>3</td><td>192.168.10.150</td><td>TCPポート</td><td>554</td><td>OFF</td></tr><tr><td>4</td><td>192.168.10.150</td><td>TCPポート</td><td>65001-65020</td><td>OFF</td></tr><tr><td>5</td><td>192.168.10.10</td><td>TCPポート</td><td>21</td><td>OFF</td></tr><tr><td>6</td><td>192.168.10.10</td><td>SSH (TCP:22)</td><td>22</td><td>OFF</td></tr><tr><td>Group01</td><td>192.168.10.10</td><td>TCPポート</td><td>6009</td><td>OFF</td></tr></tbody></table></div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s1','i2')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s1','i2')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s1','i2')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s2" data-id="s2">
+    <div class="k-section-header" draggable="true" data-secid="s2" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">2. QRコード割引券発行ツール設定（二维码优惠券打印工具）</div>
+      <div class="k-section-actions">
+        <span class="item-count">2</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s2')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s2')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s2')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s2"><div class="k-item" id="item_i3" data-id="i3" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">软件名称</div>
+      <div class="item-content">TicketRecipeBR-v1.4（位于同名文件夹内）</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s2','i3')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s2','i3')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s2','i3')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_i4" data-id="i4" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">设定内容</div>
+      <div class="item-content">駐車場番号: 2613
+割引タイプ: 料金割引（金额优惠）
+券種A: 60分, 0円 → 外来用户使用（默认优惠200日元）
+券種B: 0分, 0円 → 可自定义
+券種C: 0分, 0円 → 可自定义
+券種D: 0分, 0円</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s2','i4')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s2','i4')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s2','i4')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s3" data-id="s3">
+    <div class="k-section-header" draggable="true" data-secid="s3" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">3. FAPC PCのネットワーク設定</div>
+      <div class="k-section-actions">
+        <span class="item-count">2</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s3')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s3')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s3')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s3"><div class="k-item" id="item_i5" data-id="i5" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">非950タイプ FAPC（LAN1）</div>
+      <div class="item-content">IP: 192.168.10.10
+サブネット: 255.255.255.0
+ゲートウェイ: 192.168.10.1
+優先DNS: 192.168.10.1
+代替DNS: 8.8.8.8</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s3','i5')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s3','i5')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s3','i5')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_i6" data-id="i6" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">950タイプ FAPC（LAN1）</div>
+      <div class="item-content">IP: 192.168.0.10
+サブネット: 255.255.255.0
+ゲートウェイ: 192.168.0.1
+優先DNS: 192.168.0.1
+代替DNS: 8.8.8.8</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s3','i6')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s3','i6')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s3','i6')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s4" data-id="s4">
+    <div class="k-section-header" draggable="true" data-secid="s4" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">4. 関連する作業記録</div>
+      <div class="k-section-actions">
+        <span class="item-count">4</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s4')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s4')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s4')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s4"><div class="k-item" id="item_i7" data-id="i7" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">打印机工具路径</div>
+      <div class="item-content">在个人文件夹「コインメンテ TDG最新」里面</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s4','i7')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s4','i7')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s4','i7')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_i8" data-id="i8" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">数据库轻量化</div>
+      <div class="item-content">车牌识别停车场亲PC数据库轻量化：选择最适化然后删除。软件是 1050 DB reducer</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s4','i8')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s4','i8')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s4','i8')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_i9" data-id="i9" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">密码过期与凭据设置</div>
+      <div class="item-content">ユーザー: jpm2000user
+パスワード: Lq5yMaCU
+
+设置无限期密码（管理员CMD）:
+net accounts /maxpwage:unlimited</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s4','i9')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s4','i9')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s4','i9')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_i10" data-id="i10" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">凭据管理器设置</div>
+      <div class="item-content">打开「控制面板」→「凭据管理器」(認証情報マネージャー)
+点击「Windows 凭据」→「添加 Windows 凭据」
+地址: 192.168.10.10
+用户名: jpm2000user
+密码: Lq5yMaCU
+点击确定保存</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s4','i10')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s4','i10')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s4','i10')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s5" data-id="s5">
+    <div class="k-section-header" draggable="true" data-secid="s5" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">6. 発券機 関連APP操作</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s5')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s5')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s5')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s5"><div class="k-item" id="item_i11" data-id="i11" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">操作流程</div>
+      <div class="item-content">1. 发券机相关app在Google网盘的app下面
+2. app里设定停车场id、名称、发券个数后，点「出力」
+3. 输出图片中修改A卷为外来券、F券为驻车无料券
+4. 选择「发送给下一个应用」，再发送给发券机
+5. 取消二次发送确认
+
+発券機管理 → セキュリティ → 設定パスワード: 9824</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s5','i11')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s5','i11')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s5','i11')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s6" data-id="s6">
+    <div class="k-section-header" draggable="true" data-secid="s6" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">7. カメラサーバー写真取得できない問題</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s6')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s6')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s6')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s6"><div class="k-item" id="item_i12" data-id="i12" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">排查步骤</div>
+      <div class="item-content">1. 先确认路径是否正确，不正确就修改TPE或者路径
+2. 确认主机防火墙是否关闭
+3. 确认子机是否能够访问主机文件夹</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s6','i12')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s6','i12')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s6','i12')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s7" data-id="s7">
+    <div class="k-section-header" draggable="true" data-secid="s7" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">8. 停车场逃费功能文件位置</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s7')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s7')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s7')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s7"><div class="k-item" id="item_i13" data-id="i13" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">操作方法</div>
+      <div class="item-content">1. CSVをご請求チェックで読み込む
+2. S:\ThumbnailFolder\Unpaid にナンバー名の画像を入れる</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s7','i13')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s7','i13')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s7','i13')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s8" data-id="s8">
+    <div class="k-section-header" draggable="true" data-secid="s8" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">9. 950精算机远程打不开图片</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s8')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s8')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s8')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s8"><div class="k-item" id="item_i14" data-id="i14" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">解决方法</div>
+      <div class="item-content">固定ルートが設定されてなさそうです。
+管理员CMD执行:
+route -p add 192.168.3.0 mask 255.255.255.0 192.168.0.1</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s8','i14')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s8','i14')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s8','i14')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s9" data-id="s9">
+    <div class="k-section-header" draggable="true" data-secid="s9" data-tabid="t1">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">10. 一般需要重置或者简单恢复的情况</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s9')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t1','s9')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t1','s9')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s9"><div class="k-item" id="item_i15" data-id="i15" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">适用场景</div>
+      <div class="item-content">① 相机跨很大的版本升级
+② 标准版本升级到定制版本 / 定制版本升级到标准版本</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s9','i15')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s9','i15')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s9','i15')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div></div></div><div class="tab-panel" id="panel_t2">
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot"></div><span>【カメラ関する】</span></div>
+        <button class="add-section-btn" onclick="openAddSection('t2')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+          新增标题
+        </button>
+      </div>
+      <div class="sections-list" id="sections_t2">
+        
+      <div class="k-section" id="sec_s10" data-id="s10">
+    <div class="k-section-header" draggable="true" data-secid="s10" data-tabid="t2">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">1. ISAPIリスニング設定（双向传输设定）</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t2','s10')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t2','s10')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t2','s10')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s10"><div class="k-item" id="item_i16" data-id="i16" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">配置参数</div>
+      <div class="item-content">リスニング番号: 1
+ISAPI有効: ✓
+バージョン: HTTP
+ANPR IP: 192.168.10.130
+ANPR ポート: 80
+ホストURL: /NotificationInfo/HikInfo
+ハートビート間隔: 0秒
+アップロード画像種別: すべて
+認証モード: すべて
+クラウドストレージ: 無効</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s10','i16')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t2','s10','i16')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t2','s10','i16')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s11" data-id="s11">
+    <div class="k-section-header" draggable="true" data-secid="s11" data-tabid="t2">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">2. FTP設定</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t2','s11')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t2','s11')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t2','s11')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s11"><div class="k-item" id="item_i17" data-id="i17" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">FTP配置</div>
+      <div class="item-content">FTP有効: ✓
+有効FTP数: 1 (FTP1)
+サーバーアドレスタイプ: IPアドレス
+サーバーアドレス: 192.168.10.10
+ポート: 2121
+ユーザー名: hik_jpm
+接続モード: 一時接続（临时连接）
+エンコーディング: UTF-8</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s11','i17')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t2','s11','i17')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t2','s11','i17')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s12" data-id="s12">
+    <div class="k-section-header" draggable="true" data-secid="s12" data-tabid="t2">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">3. 関連する問題点の記録</div>
+      <div class="k-section-actions">
+        <span class="item-count">3</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t2','s12')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t2','s12')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t2','s12')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s12"><div class="k-item" id="item_i18" data-id="i18" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">400TCL-E摄像头</div>
+      <div class="item-content">从国内直接进口，设备可能有不兼容的地方，要用 traffic 关掉密码保护</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s12','i18')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t2','s12','i18')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t2','s12','i18')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_i19" data-id="i19" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">1803TCR和400TCL双向上传</div>
+      <div class="item-content">要先在「キャプチャー詳細 → 車両検出と認証のサービス」中，把第二个「允许双向上传」勾选</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s12','i19')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t2','s12','i19')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t2','s12','i19')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_i20" data-id="i20" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">スカイビ80x版本差异</div>
+      <div class="item-content">新版本 スカイビ80x_g：按车位线识别
+旧款 スカイビ80x_b：按车位框识别（不是车位线）</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s12','i20')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t2','s12','i20')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t2','s12','i20')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s13" data-id="s13">
+    <div class="k-section-header" draggable="true" data-secid="s13" data-tabid="t2">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">4. 库ID位数区别</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t2','s13')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t2','s13')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t2','s13')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s13"><div class="k-item" id="item_i21" data-id="i21" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">ID位数说明</div>
+      <div class="item-content">车位识别出入库ID: 8位
+出入库识别出入库ID: 9位</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s13','i21')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t2','s13','i21')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t2','s13','i21')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s14" data-id="s14">
+    <div class="k-section-header" draggable="true" data-secid="s14" data-tabid="t2">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">5. 摄像头识别亮度调整</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t2','s14')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t2','s14')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t2','s14')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s14"><div class="k-item" id="item_i22" data-id="i22" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">亮度高无法识别车牌时</div>
+      <div class="item-content">1. 通过「ビデオ調整ROI」或者开启部分露出补正
+2. 通过「画像設定」调整亮度</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s14','i22')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t2','s14','i22')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t2','s14','i22')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div><div class="k-section" id="sec_s15" data-id="s15">
+    <div class="k-section-header" draggable="true" data-secid="s15" data-tabid="t2">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">6. TPE出入库ID和远隔对不上</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t2','s15')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t2','s15')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t2','s15')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s15"><div class="k-item" id="item_i23" data-id="i23" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">处理步骤</div>
+      <div class="item-content">1. 设置相同的出入库开始/结束ID
+2. 当有新的车辆出入库改变ID后，修改为正确ID</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s15','i23')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t2','s15','i23')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t2','s15','i23')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div></div></div><div class="tab-panel active" id="panel_t3">
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot"></div><span>【その他問題】</span></div>
+        <button class="add-section-btn" onclick="openAddSection('t3')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+          新增标题
+        </button>
+      </div>
+      <div class="sections-list" id="sections_t3">
+        
+      <div class="k-section" id="sec_xgjywkbj" data-id="xgjywkbj">
+    <div class="k-section-header" draggable="true" data-secid="xgjywkbj" data-tabid="t3">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">路由器密码规律</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t3','xgjywkbj')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t3','xgjywkbj')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t3','xgjywkbj')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_xgjywkbj"><div class="k-item" id="item_i26" data-id="i26" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">密码查找方法</div>
+      <div class="item-content">1. サーバー / セキュリティ事業部 / 新ルーター管理表
+2. 格式: jpms9989-〇〇〇〇（〇为路由器管理编号）
+
+例：子育て支援カフェ → jpms9989-0082</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t3','xgjywkbj','i26')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t3','xgjywkbj','i26')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t3','xgjywkbj','i26')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div></div></div><div class="tab-panel" id="panel_t4">
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot"></div><span>【遠隔問題】</span></div>
+        <button class="add-section-btn" onclick="openAddSection('t4')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+          新增标题
+        </button>
+      </div>
+      <div class="sections-list" id="sections_t4">
+        
+      <div class="k-section" id="sec_s16" data-id="s16">
+    <div class="k-section-header" draggable="true" data-secid="s16" data-tabid="t4">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">1. 【遠隔問題】甲南医療センター第1駐車場 - 定期作業記録</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t4','s16')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t4','s16')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t4','s16')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s16"><div class="k-item" id="item_i24" data-id="i24" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">定期作業</div>
+      <div class="item-content">毎月、FTPのアップロードパスを手動で再設定する必要があります。
+設定しない場合、写真ファイルが開けなくなる問題が発生します。
+（每月必须手动重新设置FTP上传路径，否则会出现照片文件无法打开的问题）</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t4','s16','i24')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t4','s16','i24')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t4','s16','i24')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div></div></div><div class="tab-panel" id="panel_t5">
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot"></div><span>【工事基準】</span></div>
+        <button class="add-section-btn" onclick="openAddSection('t5')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+          新增标题
+        </button>
+      </div>
+      <div class="sections-list" id="sections_t5">
+        
+      <div class="k-section" id="sec_s17" data-id="s17">
+    <div class="k-section-header" draggable="true" data-secid="s17" data-tabid="t5">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">【工事基準】停车场设置工事的基本要求</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t5','s17')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t5','s17')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t5','s17')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s17"><div class="k-item" id="item_i25" data-id="i25" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">施工标准尺寸</div>
+      <div class="item-content">車室寸法（车位尺寸）: 長さ5.0m、幅2.5m
+車止め・カメラボードの高さ: 1.2m以上
+カメラの設置高さ: 3.5m以上</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t5','s17','i25')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t5','s17','i25')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t5','s17','i25')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div></div></div><div class="tab-panel" id="panel_t6">
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot"></div><span>【開発問題】</span></div>
+        <button class="add-section-btn" onclick="openAddSection('t6')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+          新增标题
+        </button>
+      </div>
+      <div class="sections-list" id="sections_t6">
+        
+      <div class="k-section" id="sec_s18" data-id="s18">
+    <div class="k-section-header" draggable="true" data-secid="s18" data-tabid="t6">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">路由器密码规律</div>
+      <div class="k-section-actions">
+        <span class="item-count">0</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t6','s18')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t6','s18')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t6','s18')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s18"><div class="empty-state" style="padding:14px">暂无知识点，点击 + 添加</div></div></div><div class="k-section" id="sec_s19" data-id="s19">
+    <div class="k-section-header" draggable="true" data-secid="s19" data-tabid="t6">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">程序无法安装没有权限</div>
+      <div class="k-section-actions">
+        <span class="item-count">1</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t6','s19')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t6','s19')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t6','s19')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_s19"><div class="k-item" id="item_i27" data-id="i27" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">解决方法</div>
+      <div class="item-content">1. 管理员运行CMD，复制程序地址回车
+2. 管理员运行CMD执行:
+net user administrator /active:yes</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t6','s19','i27')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t6','s19','i27')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t6','s19','i27')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+    <div class="modal-title" id="modalTitle">✏️ 编辑标题</div>
+    <div id="modalBody"><div class="modal-label">标题名称</div><input class="modal-input" id="m_secTitle" value="1"></div>
+    <div class="modal-actions" id="modalActions"><button class="btn btn-secondary">取消</button><button class="btn btn-primary">保存</button></div>
+  </div>
+</div>
+
+<div id="toast" class="">已保存</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+/* DATA_START */
+const DEFAULT_DATA = [
+  {
+    "id": "t1",
+    "name": "【TDG関する】",
+    "sections": [
+      {
+        "id": "s1",
+        "title": "1. ルーターのポート開放設定（路由网络开通设定）",
+        "items": [
+          {
+            "id": "i1",
+            "title": "LAN側IPアドレス",
+            "content": "192.168.10.10"
+          },
+          {
+            "id": "i2",
+            "title": "ポート変換登録情報",
+            "content": "table:No.|ターゲットIP|プロトコル|LAN側ポート|操作\n1|192.168.10.150|HTTP (TCP:80)|80|OFF\n2|192.168.10.150|TCPポート|8100|OFF\n3|192.168.10.150|TCPポート|554|OFF\n4|192.168.10.150|TCPポート|65001-65020|OFF\n5|192.168.10.10|TCPポート|21|OFF\n6|192.168.10.10|SSH (TCP:22)|22|OFF\nGroup01|192.168.10.10|TCPポート|6009|OFF"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "2. QRコード割引券発行ツール設定（二维码优惠券打印工具）",
+        "items": [
+          {
+            "id": "i3",
+            "title": "软件名称",
+            "content": "TicketRecipeBR-v1.4（位于同名文件夹内）"
+          },
+          {
+            "id": "i4",
+            "title": "设定内容",
+            "content": "駐車場番号: 2613\n割引タイプ: 料金割引（金额优惠）\n券種A: 60分, 0円 → 外来用户使用（默认优惠200日元）\n券種B: 0分, 0円 → 可自定义\n券種C: 0分, 0円 → 可自定义\n券種D: 0分, 0円"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "title": "3. FAPC PCのネットワーク設定",
+        "items": [
+          {
+            "id": "i5",
+            "title": "非950タイプ FAPC（LAN1）",
+            "content": "IP: 192.168.10.10\nサブネット: 255.255.255.0\nゲートウェイ: 192.168.10.1\n優先DNS: 192.168.10.1\n代替DNS: 8.8.8.8"
+          },
+          {
+            "id": "i6",
+            "title": "950タイプ FAPC（LAN1）",
+            "content": "IP: 192.168.0.10\nサブネット: 255.255.255.0\nゲートウェイ: 192.168.0.1\n優先DNS: 192.168.0.1\n代替DNS: 8.8.8.8"
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "title": "4. 関連する作業記録",
+        "items": [
+          {
+            "id": "i7",
+            "title": "打印机工具路径",
+            "content": "在个人文件夹「コインメンテ TDG最新」里面"
+          },
+          {
+            "id": "i8",
+            "title": "数据库轻量化",
+            "content": "车牌识别停车场亲PC数据库轻量化：选择最适化然后删除。软件是 1050 DB reducer"
+          },
+          {
+            "id": "i9",
+            "title": "密码过期与凭据设置",
+            "content": "ユーザー: jpm2000user\nパスワード: Lq5yMaCU\n\n设置无限期密码（管理员CMD）:\nnet accounts /maxpwage:unlimited"
+          },
+          {
+            "id": "i10",
+            "title": "凭据管理器设置",
+            "content": "打开「控制面板」→「凭据管理器」(認証情報マネージャー)\n点击「Windows 凭据」→「添加 Windows 凭据」\n地址: 192.168.10.10\n用户名: jpm2000user\n密码: Lq5yMaCU\n点击确定保存"
+          }
+        ]
+      },
+      {
+        "id": "s5",
+        "title": "6. 発券機 関連APP操作",
+        "items": [
+          {
+            "id": "i11",
+            "title": "操作流程",
+            "content": "1. 发券机相关app在Google网盘的app下面\n2. app里设定停车场id、名称、发券个数后，点「出力」\n3. 输出图片中修改A卷为外来券、F券为驻车无料券\n4. 选择「发送给下一个应用」，再发送给发券机\n5. 取消二次发送确认\n\n発券機管理 → セキュリティ → 設定パスワード: 9824"
+          }
+        ]
+      },
+      {
+        "id": "s6",
+        "title": "7. カメラサーバー写真取得できない問題",
+        "items": [
+          {
+            "id": "i12",
+            "title": "排查步骤",
+            "content": "1. 先确认路径是否正确，不正确就修改TPE或者路径\n2. 确认主机防火墙是否关闭\n3. 确认子机是否能够访问主机文件夹"
+          }
+        ]
+      },
+      {
+        "id": "s7",
+        "title": "8. 停车场逃费功能文件位置",
+        "items": [
+          {
+            "id": "i13",
+            "title": "操作方法",
+            "content": "1. CSVをご請求チェックで読み込む\n2. S:\\ThumbnailFolder\\Unpaid にナンバー名の画像を入れる"
+          }
+        ]
+      },
+      {
+        "id": "s8",
+        "title": "9. 950精算机远程打不开图片",
+        "items": [
+          {
+            "id": "i14",
+            "title": "解决方法",
+            "content": "固定ルートが設定されてなさそうです。\n管理员CMD执行:\nroute -p add 192.168.3.0 mask 255.255.255.0 192.168.0.1"
+          }
+        ]
+      },
+      {
+        "id": "s9",
+        "title": "10. 一般需要重置或者简单恢复的情况",
+        "items": [
+          {
+            "id": "i15",
+            "title": "适用场景",
+            "content": "① 相机跨很大的版本升级\n② 标准版本升级到定制版本 / 定制版本升级到标准版本"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "t2",
+    "name": "【カメラ関する】",
+    "sections": [
+      {
+        "id": "s10",
+        "title": "1. ISAPIリスニング設定（双向传输设定）",
+        "items": [
+          {
+            "id": "i16",
+            "title": "配置参数",
+            "content": "リスニング番号: 1\nISAPI有効: ✓\nバージョン: HTTP\nANPR IP: 192.168.10.130\nANPR ポート: 80\nホストURL: /NotificationInfo/HikInfo\nハートビート間隔: 0秒\nアップロード画像種別: すべて\n認証モード: すべて\nクラウドストレージ: 無効"
+          }
+        ]
+      },
+      {
+        "id": "s11",
+        "title": "2. FTP設定",
+        "items": [
+          {
+            "id": "i17",
+            "title": "FTP配置",
+            "content": "FTP有効: ✓\n有効FTP数: 1 (FTP1)\nサーバーアドレスタイプ: IPアドレス\nサーバーアドレス: 192.168.10.10\nポート: 2121\nユーザー名: hik_jpm\n接続モード: 一時接続（临时连接）\nエンコーディング: UTF-8"
+          }
+        ]
+      },
+      {
+        "id": "s12",
+        "title": "3. 関連する問題点の記録",
+        "items": [
+          {
+            "id": "i18",
+            "title": "400TCL-E摄像头",
+            "content": "从国内直接进口，设备可能有不兼容的地方，要用 traffic 关掉密码保护"
+          },
+          {
+            "id": "i19",
+            "title": "1803TCR和400TCL双向上传",
+            "content": "要先在「キャプチャー詳細 → 車両検出と認証のサービス」中，把第二个「允许双向上传」勾选"
+          },
+          {
+            "id": "i20",
+            "title": "スカイビ80x版本差异",
+            "content": "新版本 スカイビ80x_g：按车位线识别\n旧款 スカイビ80x_b：按车位框识别（不是车位线）"
+          }
+        ]
+      },
+      {
+        "id": "s13",
+        "title": "4. 库ID位数区别",
+        "items": [
+          {
+            "id": "i21",
+            "title": "ID位数说明",
+            "content": "车位识别出入库ID: 8位\n出入库识别出入库ID: 9位"
+          }
+        ]
+      },
+      {
+        "id": "s14",
+        "title": "5. 摄像头识别亮度调整",
+        "items": [
+          {
+            "id": "i22",
+            "title": "亮度高无法识别车牌时",
+            "content": "1. 通过「ビデオ調整ROI」或者开启部分露出补正\n2. 通过「画像設定」调整亮度"
+          }
+        ]
+      },
+      {
+        "id": "s15",
+        "title": "6. TPE出入库ID和远隔对不上",
+        "items": [
+          {
+            "id": "i23",
+            "title": "处理步骤",
+            "content": "1. 设置相同的出入库开始/结束ID\n2. 当有新的车辆出入库改变ID后，修改为正确ID"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "t3",
+    "name": "【その他問題】",
+    "sections": [
+      {
+        "id": "xgjywkbj",
+        "title": "路由器密码规律",
+        "items": [
+          {
+            "id": "i26",
+            "title": "密码查找方法",
+            "content": "1. サーバー / セキュリティ事業部 / 新ルーター管理表\n2. 格式: jpms9989-〇〇〇〇（〇为路由器管理编号）\n\n例：子育て支援カフェ → jpms9989-0082"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "t4",
+    "name": "【遠隔問題】",
+    "sections": [
+      {
+        "id": "s16",
+        "title": "1. 【遠隔問題】甲南医療センター第1駐車場 - 定期作業記録",
+        "items": [
+          {
+            "id": "i24",
+            "title": "定期作業",
+            "content": "毎月、FTPのアップロードパスを手動で再設定する必要があります。\n設定しない場合、写真ファイルが開けなくなる問題が発生します。\n（每月必须手动重新设置FTP上传路径，否则会出现照片文件无法打开的问题）"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "t5",
+    "name": "【工事基準】",
+    "sections": [
+      {
+        "id": "s17",
+        "title": "【工事基準】停车场设置工事的基本要求",
+        "items": [
+          {
+            "id": "i25",
+            "title": "施工标准尺寸",
+            "content": "車室寸法（车位尺寸）: 長さ5.0m、幅2.5m\n車止め・カメラボードの高さ: 1.2m以上\nカメラの設置高さ: 3.5m以上"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "t6",
+    "name": "【開発問題】",
+    "sections": [
+      {
+        "id": "s18",
+        "title": "路由器密码规律",
+        "items": []
+      },
+      {
+        "id": "s19",
+        "title": "程序无法安装没有权限",
+        "items": [
+          {
+            "id": "i27",
+            "title": "解决方法",
+            "content": "1. 管理员运行CMD，复制程序地址回车\n2. 管理员运行CMD执行:\nnet user administrator /active:yes"
+          }
+        ]
+      }
+    ]
+  }
+];
+/* DATA_END */
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let data = loadData();
+let activeTab = data[0]?.id || null;
+let dragSrcTab = null, dragSrcSection = null, dragSrcItem = null;
+
+function loadData() {
+  // Data lives directly in DEFAULT_DATA (written into this file on save)
+  return JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+
+// ─── GITHUB SETTINGS ─────────────────────────────────────────────────────────
+function ghGetConfig() {
+  try { return JSON.parse(localStorage.getItem('gh_config') || 'null'); } catch(e) { return null; }
+}
+function ghSetConfig(cfg) { localStorage.setItem('gh_config', JSON.stringify(cfg)); }
+
+function openGhSettings() {
+  const cfg = ghGetConfig() || {};
+  document.getElementById('ghUser').value = cfg.user || '';
+  document.getElementById('ghRepo').value = cfg.repo || '';
+  document.getElementById('ghPath').value = cfg.path || 'index.html';
+  document.getElementById('ghToken').value = cfg.token || '';
+  document.getElementById('ghStatusMsg').className = 'gh-status';
+  document.getElementById('ghStatusMsg').textContent = '';
+  document.getElementById('ghSetupOverlay').classList.add('open');
+}
+function closeGhSettings() { document.getElementById('ghSetupOverlay').classList.remove('open'); }
+
+function saveGhSettings() {
+  const cfg = {
+    user: document.getElementById('ghUser').value.trim(),
+    repo: document.getElementById('ghRepo').value.trim(),
+    path: document.getElementById('ghPath').value.trim() || 'index.html',
+    token: document.getElementById('ghToken').value.trim()
+  };
+  if(!cfg.user || !cfg.repo || !cfg.token) {
+    showGhStatus('err', '请填写用户名、仓库名和 Token');
+    return;
+  }
+  ghSetConfig(cfg);
+  closeGhSettings();
+  updateSaveBtn();
+  showToast('✓ GitHub 设置已保存');
+}
+
+async function testGhConnection() {
+  const cfg = {
+    user: document.getElementById('ghUser').value.trim(),
+    repo: document.getElementById('ghRepo').value.trim(),
+    path: document.getElementById('ghPath').value.trim() || 'index.html',
+    token: document.getElementById('ghToken').value.trim()
+  };
+  if(!cfg.user || !cfg.repo || !cfg.token) {
+    showGhStatus('err', '请先填写所有字段');
+    return;
+  }
+  showGhStatus('loading', '正在测试连接…');
+  try {
+    const url = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.path}`;
+    const res = await fetch(url, { headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' }});
+    if(res.status === 200) {
+      showGhStatus('ok', '✓ 连接成功！文件已找到，可以正常保存。');
+    } else if(res.status === 404) {
+      showGhStatus('ok', '✓ 连接成功！文件不存在将自动创建。');
+    } else if(res.status === 401) {
+      showGhStatus('err', '✗ Token 无效或权限不足，请重新生成。');
+    } else {
+      showGhStatus('err', `✗ 请求失败：HTTP ${res.status}`);
+    }
+  } catch(e) {
+    showGhStatus('err', '✗ 网络错误，请检查网络连接。');
+  }
+}
+
+function showGhStatus(type, msg) {
+  const el = document.getElementById('ghStatusMsg');
+  el.className = 'gh-status ' + type;
+  el.textContent = msg;
+}
+
+function updateSaveBtn() {
+  const cfg = ghGetConfig();
+  const btn = document.getElementById('saveFileBtn');
+  const status = document.getElementById('saveStatus');
+  if(cfg && cfg.token) {
+    btn.title = `保存到 GitHub (${cfg.user}/${cfg.repo})`;
+    if(status) status.textContent = '';
+  }
+}
+
+// ─── SAVE DATA & TO GITHUB ───────────────────────────────────────────────────
+let _dirty = false;
+
+function saveData() {
+  _dirty = true;
+  const btn = document.getElementById('saveFileBtn');
+  const status = document.getElementById('saveStatus');
+  if(btn) { btn.classList.add('dirty'); btn.classList.remove('saving'); }
+  if(status) status.textContent = '● 未保存';
+}
+
+async function saveToFile() {
+  const cfg = ghGetConfig();
+  if(cfg && cfg.user && cfg.repo && cfg.token) {
+    await saveToGitHub(cfg);
+  } else {
+    // No GitHub config - prompt to set up
+    openGhSettings();
+    showGhStatus('err', '请先填写 GitHub 配置，然后点「保存设置」');
+  }
+}
+
+async function saveToGitHub(cfg) {
+  const btn = document.getElementById('saveFileBtn');
+  const status = document.getElementById('saveStatus');
+  if(btn) { btn.classList.remove('dirty'); btn.classList.add('saving'); btn.textContent = '保存中…'; }
+  if(status) status.textContent = '上传中…';
+
+  try {
+    const dataStr = JSON.stringify(data, null, 2);
+    // Build new HTML with updated data
+    const html = document.documentElement.outerHTML;
+    const startMarker = '/* DATA_START */';
+    const endMarker = '/* DATA_END */';
+    const startIdx = html.indexOf(startMarker);
+    const endIdx = html.indexOf(endMarker);
+    let newHtml;
+    if(startIdx !== -1 && endIdx !== -1) {
+      newHtml = html.substring(0, startIdx + startMarker.length) + '\nconst DEFAULT_DATA = ' + dataStr + ';\n' + html.substring(endIdx);
+    } else {
+      newHtml = html;
+    }
+
+    const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.path}`;
+    const headers = { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
+
+    // Get current file SHA (needed for update)
+    let sha = null;
+    const getRes = await fetch(apiUrl, { headers });
+    if(getRes.ok) {
+      const fileInfo = await getRes.json();
+      sha = fileInfo.sha;
+    }
+
+    // Encode content to base64
+    const encoded = btoa(unescape(encodeURIComponent(newHtml)));
+
+    const body = { message: '📝 更新知识库', content: encoded };
+    if(sha) body.sha = sha;
+
+    const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+
+    if(putRes.ok) {
+      _dirty = false;
+      if(btn) {
+        btn.classList.remove('saving', 'dirty');
+        btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> 保存';
+      }
+      if(status) { status.textContent = '✓ 已保存到 GitHub'; setTimeout(() => { if(!_dirty && status) status.textContent = ''; }, 3000); }
+      showToast('✓ 已保存到 GitHub！');
+    } else {
+      const err = await putRes.json();
+      throw new Error(err.message || `HTTP ${putRes.status}`);
+    }
+  } catch(e) {
+    if(btn) {
+      btn.classList.remove('saving');
+      btn.classList.add('dirty');
+      btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> 保存';
+    }
+    if(status) status.textContent = '✗ 保存失败';
+    showToast('✗ 保存失败：' + e.message);
+  }
+}
+
+// Warn before closing if dirty
+window.addEventListener('beforeunload', e => {
+  if(_dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+function uid() { return 'x' + Math.random().toString(36).slice(2,9); }
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function render() { renderTabs(); renderPanels(); }
+
+function renderTabs() {
+  const bar = document.getElementById('tabsBar');
+  const addBtn = document.getElementById('addTabBtn');
+  bar.innerHTML = '';
+  data.forEach(tab => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (tab.id === activeTab ? ' active' : '');
+    btn.dataset.id = tab.id;
+    btn.draggable = true;
+    btn.innerHTML = `
+      <span class="tab-label">${esc(tab.name)}</span>
+      <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('${tab.id}')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>`;
+    btn.addEventListener('click', () => switchTab(tab.id));
+    btn.addEventListener('dragstart', e => { dragSrcTab = tab.id; btn.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+    btn.addEventListener('dragend', () => { btn.classList.remove('dragging'); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('drag-over')); });
+    btn.addEventListener('dragover', e => { e.preventDefault(); if(dragSrcTab && dragSrcTab !== tab.id) btn.classList.add('drag-over'); });
+    btn.addEventListener('dragleave', () => btn.classList.remove('drag-over'));
+    btn.addEventListener('drop', e => { e.preventDefault(); if(dragSrcTab && dragSrcTab !== tab.id) { reorderTab(dragSrcTab, tab.id); dragSrcTab = null; } });
+    bar.appendChild(btn);
+  });
+  bar.appendChild(addBtn);
+}
+
+function renderPanels() {
+  const main = document.getElementById('mainContent');
+  main.innerHTML = '';
+  data.forEach(tab => {
+    const panel = document.createElement('div');
+    panel.className = 'tab-panel' + (tab.id === activeTab ? ' active' : '');
+    panel.id = 'panel_' + tab.id;
+    panel.innerHTML = `
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot"></div><span>${esc(tab.name)}</span></div>
+        <button class="add-section-btn" onclick="openAddSection('${tab.id}')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          新增标题
+        </button>
+      </div>
+      <div class="sections-list" id="sections_${tab.id}">
+        ${tab.sections.length===0?'<div class="empty-state"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z"/></svg><br>暂无内容，点击「新增标题」开始添加</div>':''}
+      </div>`;
+    main.appendChild(panel);
+    const secList = panel.querySelector('.sections-list');
+    tab.sections.forEach(sec => secList.appendChild(buildSection(tab.id, sec)));
+  });
+}
+
+function buildSection(tabId, sec) {
+  const el = document.createElement('div');
+  el.className = 'k-section';
+  el.id = 'sec_' + sec.id;
+  el.dataset.id = sec.id;
+  el.innerHTML = `
+    <div class="k-section-header" draggable="true" data-secid="${sec.id}" data-tabid="${tabId}">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></div>
+      <div class="k-section-title">${esc(sec.title)}</div>
+      <div class="k-section-actions">
+        <span class="item-count">${sec.items.length}</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('${tabId}','${sec.id}')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <button class="icon-btn move" title="移动整个标题到其他分类" onclick="openMoveSection('${tabId}','${sec.id}')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('${tabId}','${sec.id}')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('${tabId}','${sec.id}')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_${sec.id}"></div>`;
+
+  const hdr = el.querySelector('.k-section-header');
+  hdr.addEventListener('dragstart', e => { dragSrcSection = { tabId, secId: sec.id }; el.classList.add('dragging-section'); e.dataTransfer.effectAllowed = 'move'; e.stopPropagation(); });
+  hdr.addEventListener('dragend', () => { el.classList.remove('dragging-section'); document.querySelectorAll('.k-section').forEach(s => s.classList.remove('drag-over-section')); });
+  el.addEventListener('dragover', e => { e.preventDefault(); if(dragSrcSection && dragSrcSection.secId !== sec.id) el.classList.add('drag-over-section'); });
+  el.addEventListener('dragleave', () => el.classList.remove('drag-over-section'));
+  el.addEventListener('drop', e => { e.preventDefault(); if(dragSrcSection && dragSrcSection.secId !== sec.id) { reorderSection(dragSrcSection.tabId, dragSrcSection.secId, tabId, sec.id); dragSrcSection = null; } });
+
+  const itemsList = el.querySelector('.k-items');
+  if(sec.items.length===0) {
+    itemsList.innerHTML = '<div class="empty-state" style="padding:14px">暂无知识点，点击 + 添加</div>';
+  } else {
+    sec.items.forEach(item => itemsList.appendChild(buildItem(tabId, sec.id, item)));
+  }
+  return el;
+}
+
+function buildItem(tabId, secId, item) {
+  const el = document.createElement('div');
+  el.className = 'k-item';
+  el.id = 'item_' + item.id;
+  el.dataset.id = item.id;
+  el.draggable = true;
+
+  let contentHtml = '';
+  if(item.content && item.content.startsWith('table:')) {
+    contentHtml = renderTable(item.content);
+  } else if(item.content && item.content.includes('\ntable:')) {
+    // Mixed content with embedded table blocks
+    contentHtml = renderMixedContent(item.content);
+  } else {
+    contentHtml = `<div class="item-content">${formatContent(item.content)}</div>`;
+  }
+
+  el.innerHTML = `
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></div>
+    <div class="item-body">
+      <div class="item-title">${esc(item.title)}</div>
+      ${contentHtml}
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('${tabId}','${secId}','${item.id}')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('${tabId}','${secId}','${item.id}')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('${tabId}','${secId}','${item.id}')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      </button>
+    </div>`;
+
+  el.addEventListener('dragstart', e => { dragSrcItem = { tabId, secId, itemId: item.id }; el.classList.add('dragging-item'); e.dataTransfer.effectAllowed = 'move'; e.stopPropagation(); });
+  el.addEventListener('dragend', () => { el.classList.remove('dragging-item'); document.querySelectorAll('.k-item').forEach(i => i.classList.remove('drag-over-item')); });
+  el.addEventListener('dragover', e => { e.preventDefault(); if(dragSrcItem && dragSrcItem.itemId !== item.id) el.classList.add('drag-over-item'); });
+  el.addEventListener('dragleave', () => el.classList.remove('drag-over-item'));
+  el.addEventListener('drop', e => { e.preventDefault(); if(dragSrcItem && dragSrcItem.itemId !== item.id) { reorderItem(dragSrcItem, { tabId, secId, itemId: item.id }); dragSrcItem = null; } });
+  return el;
+}
+
+function renderTable(raw) {
+  const lines = raw.replace('table:', '').trim().split('\n');
+  const headers = lines[0].split('|');
+  let html = '<div class="item-table-wrap"><table class="item-table"><thead><tr>';
+  headers.forEach(h => html += `<th>${esc(h.trim())}</th>`);
+  html += '</tr></thead><tbody>';
+  for(let i=1;i<lines.length;i++) {
+    const cells = lines[i].split('|');
+    html += '<tr>';
+    cells.forEach(c => html += `<td>${esc(c.trim())}</td>`);
+    html += '</tr>';
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function renderMixedContent(text) {
+  const parts = text.split(/(\ntable:[^\n].*(?:\n.*)*?)(?=\n(?!\S\S+\|)|$)/);
+  let html = '';
+  // Simpler approach: split on lines, detect table blocks
+  const lines = text.split('\n');
+  let i = 0;
+  let textBuffer = [];
+  while(i < lines.length) {
+    if(lines[i].startsWith('table:')) {
+      // Flush text buffer
+      if(textBuffer.length) {
+        html += `<div class="item-content">${formatContent(textBuffer.join('\n'))}</div>`;
+        textBuffer = [];
+      }
+      // Collect table lines (header line + data rows with |)
+      let tableLines = [lines[i]];
+      i++;
+      while(i < lines.length && lines[i].includes('|')) {
+        tableLines.push(lines[i]);
+        i++;
+      }
+      html += renderTable(tableLines.join('\n'));
+    } else {
+      textBuffer.push(lines[i]);
+      i++;
+    }
+  }
+  if(textBuffer.length) {
+    html += `<div class="item-content">${formatContent(textBuffer.join('\n'))}</div>`;
+  }
+  return html;
+}
+
+function formatContent(text) {
+  if(!text) return '';
+  // Escape HTML first, then apply formatting
+  let s = esc(text);
+  // code: `...`
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // links: [text](url)
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  return s;
+}
+
+function esc(str) {
+  if(!str) return '';
+  return str.toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── EDITOR TOOLBAR ──────────────────────────────────────────────────────────
+function buildEditorToolbar(textareaId) {
+  return `
+  <div class="editor-toolbar" id="toolbar_${textareaId}">
+    <button class="tb-btn" type="button" onclick="tbCode('${textareaId}')" title="代码">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      代码
+    </button>
+    <button class="tb-btn" type="button" onclick="tbLink('${textareaId}')" title="链接">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      链接
+    </button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" type="button" onclick="tbOrder('${textareaId}')" title="有序列表">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+      序号
+    </button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" type="button" onclick="tbShowTableBuilder('${textareaId}')" title="插入表格">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      表格
+    </button>
+  </div>`;
+}
+
+// code wrap
+function tbCode(id) {
+  const ta = document.getElementById(id);
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const sel = ta.value.substring(start, end);
+  const repl = sel ? '`' + sel + '`' : '`代码`';
+  ta.value = ta.value.substring(0, start) + repl + ta.value.substring(end);
+  ta.focus();
+  ta.selectionStart = start + 1;
+  ta.selectionEnd = start + 1 + (sel ? sel.length : 2);
+}
+
+// link insert
+function tbLink(id) {
+  const ta = document.getElementById(id);
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const sel = ta.value.substring(start, end);
+  const repl = `[${sel || '链接文字'}](https://)`;
+  ta.value = ta.value.substring(0, start) + repl + ta.value.substring(end);
+  ta.focus();
+  const urlStart = start + (sel || '链接文字').length + 3;
+  ta.selectionStart = urlStart;
+  ta.selectionEnd = urlStart + 8;
+}
+
+// ordered list
+function tbOrder(id) {
+  const ta = document.getElementById(id);
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const sel = ta.value.substring(start, end);
+  let repl;
+  if(sel.trim()) {
+    const lines = sel.split('\n');
+    repl = lines.map((l, i) => `${i+1}. ${l}`).join('\n');
+  } else {
+    repl = '1. \n2. \n3. ';
+  }
+  ta.value = ta.value.substring(0, start) + repl + ta.value.substring(end);
+  ta.focus();
+}
+
+// ─── TABLE BUILDER ───────────────────────────────────────────────────────────
+let tbState = { rows: 2, cols: 3, targetId: '' };
+
+function tbShowTableBuilder(textareaId) {
+  tbState.targetId = textareaId;
+  tbState.rows = 2;
+  tbState.cols = 3;
+  const container = document.getElementById('tableBuilderContainer_' + textareaId);
+  if(!container) return;
+  container.innerHTML = buildTableBuilderHTML();
+  container.style.display = 'block';
+}
+
+function buildTableBuilderHTML() {
+  let html = `<div class="table-builder">
+    <div class="table-builder-title">
+      <span>📊 表格编辑器</span>
+      <button class="tb-collapse-btn" onclick="hideTbBuilder()">✕ 关闭</button>
+    </div>
+    <div class="tb-grid"><table class="tb-table"><thead><tr>`;
+  for(let c=0;c<tbState.cols;c++) {
+    html += `<th><input class="header-input" id="tbh_${c}" placeholder="列${c+1}" /></th>`;
+  }
+  html += `<th style="width:30px"></th></tr></thead><tbody>`;
+  for(let r=0;r<tbState.rows;r++) {
+    html += `<tr id="tbr_${r}">`;
+    for(let c=0;c<tbState.cols;c++) {
+      html += `<td><input id="tbc_${r}_${c}" placeholder="行${r+1}列${c+1}" /></td>`;
+    }
+    html += `<td><button class="tb-ctrl-btn danger" onclick="tbDelRow(${r})" style="padding:2px 6px">✕</button></td></tr>`;
+  }
+  html += `</tbody></table></div>
+    <div class="tb-controls">
+      <button class="tb-ctrl-btn" onclick="tbAddRow()">+ 行</button>
+      <button class="tb-ctrl-btn" onclick="tbAddCol()">+ 列</button>
+      <button class="tb-ctrl-btn danger" onclick="tbDelCol()">- 列</button>
+      <button class="tb-apply-btn" onclick="tbApply()">✓ 插入表格</button>
+    </div>
+  </div>`;
+  return html;
+}
+
+function hideTbBuilder() {
+  const id = tbState.targetId;
+  if(!id) return;
+  const c = document.getElementById('tableBuilderContainer_' + id);
+  if(c) c.style.display = 'none';
+}
+
+function tbSaveValues() {
+  // Save current values before re-render
+  const saved = { headers: [], rows: [] };
+  for(let c=0;c<tbState.cols;c++) {
+    const el = document.getElementById(`tbh_${c}`);
+    saved.headers.push(el ? el.value : '');
+  }
+  for(let r=0;r<tbState.rows;r++) {
+    const row = [];
+    for(let c=0;c<tbState.cols;c++) {
+      const el = document.getElementById(`tbc_${r}_${c}`);
+      row.push(el ? el.value : '');
+    }
+    saved.rows.push(row);
+  }
+  return saved;
+}
+
+function tbRestoreValues(saved) {
+  for(let c=0;c<tbState.cols;c++) {
+    const el = document.getElementById(`tbh_${c}`);
+    if(el && saved.headers[c] !== undefined) el.value = saved.headers[c];
+  }
+  for(let r=0;r<tbState.rows;r++) {
+    for(let c=0;c<tbState.cols;c++) {
+      const el = document.getElementById(`tbc_${r}_${c}`);
+      if(el && saved.rows[r] && saved.rows[r][c] !== undefined) el.value = saved.rows[r][c];
+    }
+  }
+}
+
+function tbRerender() {
+  const saved = tbSaveValues();
+  const container = document.getElementById('tableBuilderContainer_' + tbState.targetId);
+  if(!container) return;
+  container.innerHTML = buildTableBuilderHTML();
+  tbRestoreValues(saved);
+}
+
+function tbAddRow() {
+  const saved = tbSaveValues();
+  tbState.rows++;
+  saved.rows.push(Array(tbState.cols).fill(''));
+  const container = document.getElementById('tableBuilderContainer_' + tbState.targetId);
+  if(!container) return;
+  container.innerHTML = buildTableBuilderHTML();
+  tbRestoreValues(saved);
+}
+
+function tbDelRow(r) {
+  if(tbState.rows <= 1) return;
+  const saved = tbSaveValues();
+  saved.rows.splice(r, 1);
+  tbState.rows--;
+  const container = document.getElementById('tableBuilderContainer_' + tbState.targetId);
+  if(!container) return;
+  container.innerHTML = buildTableBuilderHTML();
+  tbRestoreValues(saved);
+}
+
+function tbAddCol() {
+  const saved = tbSaveValues();
+  tbState.cols++;
+  saved.headers.push('');
+  saved.rows.forEach(r => r.push(''));
+  const container = document.getElementById('tableBuilderContainer_' + tbState.targetId);
+  if(!container) return;
+  container.innerHTML = buildTableBuilderHTML();
+  tbRestoreValues(saved);
+}
+
+function tbDelCol() {
+  if(tbState.cols <= 1) return;
+  const saved = tbSaveValues();
+  tbState.cols--;
+  saved.headers.pop();
+  saved.rows.forEach(r => r.pop());
+  const container = document.getElementById('tableBuilderContainer_' + tbState.targetId);
+  if(!container) return;
+  container.innerHTML = buildTableBuilderHTML();
+  tbRestoreValues(saved);
+}
+
+function tbApply() {
+  const headers = [];
+  for(let c=0;c<tbState.cols;c++) {
+    const el = document.getElementById(`tbh_${c}`);
+    headers.push(el ? el.value || `列${c+1}` : `列${c+1}`);
+  }
+  const rowData = [];
+  for(let r=0;r<tbState.rows;r++) {
+    const row = [];
+    for(let c=0;c<tbState.cols;c++) {
+      const el = document.getElementById(`tbc_${r}_${c}`);
+      row.push(el ? el.value : '');
+    }
+    rowData.push(row.join('|'));
+  }
+  const tableStr = 'table:' + headers.join('|') + '\n' + rowData.join('\n');
+  const ta = document.getElementById(tbState.targetId);
+  if(ta) {
+    const start = ta.selectionStart;
+    const before = ta.value.substring(0, start);
+    const after = ta.value.substring(ta.selectionEnd);
+    const sep = (before && !before.endsWith('\n')) ? '\n' : '';
+    ta.value = before + sep + tableStr + after;
+    ta.focus();
+  }
+  hideTbBuilder();
+  showToast('表格已插入');
+}
+
+// ─── ITEM EDITOR MODAL ───────────────────────────────────────────────────────
+function itemEditorHTML(titleVal, contentVal, textareaId) {
+  return `
+    <div class="modal-label">标题</div>
+    <input class="modal-input" id="m_itemTitle" value="${esc(titleVal)}" placeholder="简短标题">
+    <div class="modal-label">内容</div>
+    ${buildEditorToolbar(textareaId)}
+    <textarea class="modal-textarea has-toolbar" id="${textareaId}">${esc(contentVal)}</textarea>
+    <div id="tableBuilderContainer_${textareaId}" style="display:none"></div>`;
+}
+
+// ─── SWITCH TAB ──────────────────────────────────────────────────────────────
+function switchTab(id) {
+  activeTab = id;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel_' + id));
+}
+
+// ─── REORDER ─────────────────────────────────────────────────────────────────
+function reorderTab(fromId, toId) {
+  const fi = data.findIndex(t => t.id === fromId), ti = data.findIndex(t => t.id === toId);
+  if(fi<0||ti<0) return;
+  const [item] = data.splice(fi, 1); data.splice(ti, 0, item);
+  saveData(); render();
+}
+
+function reorderSection(fromTabId, fromSecId, toTabId, toSecId) {
+  const fromTab = data.find(t => t.id === fromTabId), toTab = data.find(t => t.id === toTabId);
+  if(!fromTab||!toTab) return;
+  const fi = fromTab.sections.findIndex(s => s.id === fromSecId), ti = toTab.sections.findIndex(s => s.id === toSecId);
+  if(fi<0||ti<0) return;
+  const [sec] = fromTab.sections.splice(fi, 1); toTab.sections.splice(ti, 0, sec);
+  saveData(); render();
+}
+
+function reorderItem(from, to) {
+  const fromTab = data.find(t => t.id === from.tabId), toTab = data.find(t => t.id === to.tabId);
+  if(!fromTab||!toTab) return;
+  const fromSec = fromTab.sections.find(s => s.id === from.secId), toSec = toTab.sections.find(s => s.id === to.secId);
+  if(!fromSec||!toSec) return;
+  const fi = fromSec.items.findIndex(i => i.id === from.itemId), ti = toSec.items.findIndex(i => i.id === to.itemId);
+  if(fi<0||ti<0) return;
+  const [item] = fromSec.items.splice(fi, 1); toSec.items.splice(ti, 0, item);
+  saveData(); render();
+}
+
+// ─── MODAL HELPERS ───────────────────────────────────────────────────────────
+function openModal(title, bodyHtml, actions) {
+  document.getElementById('modalTitle').innerHTML = title;
+  document.getElementById('modalBody').innerHTML = bodyHtml;
+  const actDiv = document.getElementById('modalActions');
+  actDiv.innerHTML = '';
+  actions.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'btn ' + (a.cls || 'btn-secondary');
+    btn.textContent = a.label;
+    btn.onclick = a.fn;
+    actDiv.appendChild(btn);
+  });
+  document.getElementById('modalOverlay').classList.add('open');
+  const first = document.querySelector('#modalBody input, #modalBody textarea');
+  if(first) setTimeout(() => first.focus(), 100);
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if(e.target === document.getElementById('modalOverlay')) closeModal();
+});
+
+// ─── TAB OPERATIONS ──────────────────────────────────────────────────────────
+document.getElementById('addTabBtn').addEventListener('click', () => {
+  openModal('🆕 新增分类标签',
+    `<div class="modal-label">分类名称</div><input class="modal-input" id="m_tabName" placeholder="例：【新分类】" maxlength="30">`,
+    [
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '新增', cls: 'btn-primary', fn: () => {
+        const name = document.getElementById('m_tabName').value.trim();
+        if(!name) return;
+        const newTab = { id: uid(), name, sections: [] };
+        data.push(newTab); saveData(); render(); switchTab(newTab.id); closeModal(); showToast('已新增：' + name);
+      }}
+    ]
+  );
+});
+
+function openTabEdit(tabId) {
+  const tab = data.find(t => t.id === tabId); if(!tab) return;
+  openModal('✏️ 编辑分类',
+    `<div class="modal-label">分类名称</div><input class="modal-input" id="m_tabName" value="${esc(tab.name)}" maxlength="30">`,
+    [
+      { label: '删除', cls: 'btn-danger', fn: () => confirmDeleteTab(tabId) },
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '保存', cls: 'btn-primary', fn: () => {
+        const name = document.getElementById('m_tabName').value.trim();
+        if(!name) return;
+        tab.name = name; saveData(); render(); closeModal(); showToast('已保存');
+      }}
+    ]
+  );
+}
+
+function confirmDeleteTab(tabId) {
+  const tab = data.find(t => t.id === tabId); if(!tab) return;
+  openModal('⚠️ 确认删除',
+    `<p style="color:var(--text-muted)">确定要删除分类「<strong style="color:var(--text)">${esc(tab.name)}</strong>」及其所有内容吗？</p>`,
+    [
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '确认删除', cls: 'btn-danger', fn: () => {
+        const idx = data.findIndex(t => t.id === tabId);
+        data.splice(idx, 1);
+        if(activeTab === tabId) activeTab = data[0]?.id || null;
+        saveData(); render(); closeModal(); showToast('已删除');
+      }}
+    ]
+  );
+}
+
+// ─── SECTION OPERATIONS ──────────────────────────────────────────────────────
+function openAddSection(tabId) {
+  openModal('➕ 新增标题',
+    `<div class="modal-label">标题名称</div><input class="modal-input" id="m_secTitle" placeholder="例：1. 操作步骤">`,
+    [
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '新增', cls: 'btn-primary', fn: () => {
+        const title = document.getElementById('m_secTitle').value.trim();
+        if(!title) return;
+        const tab = data.find(t => t.id === tabId);
+        tab.sections.push({ id: uid(), title, items: [] });
+        saveData(); render(); closeModal(); showToast('已新增标题');
+      }}
+    ]
+  );
+}
+
+function openEditSection(tabId, secId) {
+  const tab = data.find(t => t.id === tabId), sec = tab?.sections.find(s => s.id === secId); if(!sec) return;
+  openModal('✏️ 编辑标题',
+    `<div class="modal-label">标题名称</div><input class="modal-input" id="m_secTitle" value="${esc(sec.title)}">`,
+    [
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '保存', cls: 'btn-primary', fn: () => {
+        const title = document.getElementById('m_secTitle').value.trim();
+        if(!title) return;
+        sec.title = title; saveData(); render(); closeModal(); showToast('已保存');
+      }}
+    ]
+  );
+}
+
+function confirmDeleteSection(tabId, secId) {
+  const tab = data.find(t => t.id === tabId), sec = tab?.sections.find(s => s.id === secId); if(!sec) return;
+  openModal('⚠️ 确认删除',
+    `<p style="color:var(--text-muted)">确定要删除标题「<strong style="color:var(--text)">${esc(sec.title)}</strong>」及其所有知识点吗？</p>`,
+    [
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '确认删除', cls: 'btn-danger', fn: () => {
+        tab.sections = tab.sections.filter(s => s.id !== secId);
+        saveData(); render(); closeModal(); showToast('已删除');
+      }}
+    ]
+  );
+}
+
+// ─── ITEM OPERATIONS ─────────────────────────────────────────────────────────
+function openAddItem(tabId, secId) {
+  const taId = 'm_itemContent_add';
+  openModal('➕ 新增知识点',
+    itemEditorHTML('', '', taId),
+    [
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '新增', cls: 'btn-primary', fn: () => {
+        const title = document.getElementById('m_itemTitle').value.trim();
+        const content = document.getElementById(taId).value.trim();
+        if(!title) return;
+        const tab = data.find(t => t.id === tabId), sec = tab?.sections.find(s => s.id === secId);
+        if(!sec) return;
+        sec.items.push({ id: uid(), title, content });
+        saveData(); render(); closeModal(); showToast('已新增知识点');
+      }}
+    ]
+  );
+}
+
+function openEditItem(tabId, secId, itemId) {
+  const tab = data.find(t => t.id === tabId), sec = tab?.sections.find(s => s.id === secId), item = sec?.items.find(i => i.id === itemId);
+  if(!item) return;
+  const taId = 'm_itemContent_edit';
+  openModal('✏️ 编辑知识点',
+    itemEditorHTML(item.title, item.content, taId),
+    [
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '保存', cls: 'btn-primary', fn: () => {
+        const title = document.getElementById('m_itemTitle').value.trim();
+        const content = document.getElementById(taId).value.trim();
+        if(!title) return;
+        item.title = title; item.content = content;
+        saveData(); render(); closeModal(); showToast('已保存');
+      }}
+    ]
+  );
+}
+
+function confirmDeleteItem(tabId, secId, itemId) {
+  const tab = data.find(t => t.id === tabId), sec = tab?.sections.find(s => s.id === secId), item = sec?.items.find(i => i.id === itemId);
+  if(!item) return;
+  openModal('⚠️ 确认删除',
+    `<p style="color:var(--text-muted)">确定要删除知识点「<strong style="color:var(--text)">${esc(item.title)}</strong>」吗？</p>`,
+    [
+      { label: '取消', cls: 'btn-secondary', fn: closeModal },
+      { label: '确认删除', cls: 'btn-danger', fn: () => {
+        sec.items = sec.items.filter(i => i.id !== itemId);
+        saveData(); render(); closeModal(); showToast('已删除');
+      }}
+    ]
+  );
+}
+
+// ─── MOVE ITEM ────────────────────────────────────────────────────────────────
+function openMoveItem(tabId, secId, itemId) {
+  const srcTab = data.find(t => t.id === tabId), srcSec = srcTab?.sections.find(s => s.id === secId), item = srcSec?.items.find(i => i.id === itemId);
+  if(!item) return;
+
+  let listHtml = '';
+  data.forEach(tab => {
+    const otherSecs = tab.sections.filter(s => !(tab.id === tabId && s.id === secId));
+    if(otherSecs.length === 0) return;
+    listHtml += `<div style="margin-bottom:10px">
+      <div style="font-size:0.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;letter-spacing:0.04em">${esc(tab.name)}</div>
+      <div class="move-tab-sub">`;
+    otherSecs.forEach(sec => {
+      listHtml += `<div class="move-sec-option" onclick="doMoveItem('${tabId}','${secId}','${itemId}','${tab.id}','${sec.id}')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        ${esc(sec.title)}
+      </div>`;
+    });
+    listHtml += `</div></div>`;
+  });
+
+  if(!listHtml) {
+    showToast('没有其他可移动到的分组');
+    return;
+  }
+
+  openModal('↗️ 迁移知识点',
+    `<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px">将「<strong style="color:var(--text)">${esc(item.title)}</strong>」移动到：</p>
+     <div style="max-height:300px;overflow-y:auto;">${listHtml}</div>`,
+    [{ label: '取消', cls: 'btn-secondary', fn: closeModal }]
+  );
+}
+
+function doMoveItem(fromTabId, fromSecId, itemId, toTabId, toSecId) {
+  const fromTab = data.find(t => t.id === fromTabId), toTab = data.find(t => t.id === toTabId);
+  if(!fromTab || !toTab) return;
+  const fromSec = fromTab.sections.find(s => s.id === fromSecId), toSec = toTab.sections.find(s => s.id === toSecId);
+  if(!fromSec || !toSec) return;
+  const idx = fromSec.items.findIndex(i => i.id === itemId);
+  if(idx < 0) return;
+  const [item] = fromSec.items.splice(idx, 1);
+  toSec.items.push(item);
+  saveData(); render(); closeModal();
+  showToast(`已移动到「${toSec.title}」`);
+  switchTab(toTabId);
+  setTimeout(() => {
+    const el = document.getElementById('item_' + item.id);
+    if(el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('highlight-section'); setTimeout(() => el.classList.remove('highlight-section'), 2000); }
+  }, 120);
+}
+
+// ─── MOVE SECTION ────────────────────────────────────────────────────────────
+function openMoveSection(tabId, secId) {
+  const srcTab = data.find(t => t.id === tabId);
+  const sec = srcTab?.sections.find(s => s.id === secId);
+  if(!sec) return;
+
+  let listHtml = '';
+  data.forEach(tab => {
+    if(tab.id === tabId) return; // skip current tab
+    listHtml += `<div class="move-sec-option" onclick="doMoveSection('${tabId}','${secId}','${tab.id}')">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      ${esc(tab.name)}
+    </div>`;
+  });
+
+  if(!listHtml) { showToast('没有其他可移动到的分类'); return; }
+
+  openModal('↗️ 移动整个标题',
+    `<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px">将标题「<strong style="color:var(--text)">${esc(sec.title)}</strong>」及其 <strong>${sec.items.length}</strong> 个知识点全部移动到：</p>
+     <div class="move-tab-sub" style="max-height:300px;overflow-y:auto;">${listHtml}</div>`,
+    [{ label: '取消', cls: 'btn-secondary', fn: closeModal }]
+  );
+}
+
+function doMoveSection(fromTabId, secId, toTabId) {
+  const fromTab = data.find(t => t.id === fromTabId), toTab = data.find(t => t.id === toTabId);
+  if(!fromTab || !toTab) return;
+  const idx = fromTab.sections.findIndex(s => s.id === secId);
+  if(idx < 0) return;
+  const [sec] = fromTab.sections.splice(idx, 1);
+  toTab.sections.push(sec);
+  saveData(); render(); closeModal();
+  showToast(`标题已移动到「${toTab.name}」`);
+  switchTab(toTabId);
+  setTimeout(() => {
+    const el = document.getElementById('sec_' + sec.id);
+    if(el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('highlight-section'); setTimeout(() => el.classList.remove('highlight-section'), 2000); }
+  }, 120);
+}
+
+// ─── SEARCH ──────────────────────────────────────────────────────────────────
+const searchInput = document.getElementById('globalSearch');
+const searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', doSearch);
+searchInput.addEventListener('focus', doSearch);
+document.addEventListener('click', e => {
+  if(!searchInput.contains(e.target) && !searchResults.contains(e.target)) searchResults.style.display = 'none';
+});
+
+function doSearch() {
+  const q = searchInput.value.trim().toLowerCase();
+  if(!q) { searchResults.style.display = 'none'; return; }
+  const results = [];
+  data.forEach(tab => {
+    tab.sections.forEach(sec => {
+      if(sec.title.toLowerCase().includes(q)) results.push({ tabId: tab.id, tabName: tab.name, secId: sec.id, title: sec.title, preview: '', type: 'section' });
+      sec.items.forEach(item => {
+        const inTitle = item.title.toLowerCase().includes(q), inContent = item.content.toLowerCase().includes(q);
+        if(inTitle || inContent) {
+          let preview = '';
+          if(inContent) { const idx = item.content.toLowerCase().indexOf(q); preview = '…' + item.content.substring(Math.max(0,idx-20), idx+60) + '…'; }
+          results.push({ tabId: tab.id, tabName: tab.name, secId: sec.id, itemId: item.id, title: item.title, preview, type: 'item' });
+        }
+      });
+    });
+  });
+  if(results.length===0) {
+    searchResults.innerHTML = `<div class="no-results">未找到相关内容</div>`;
+  } else {
+    searchResults.innerHTML = results.slice(0,12).map(r => `
+      <div class="search-item" onclick="jumpTo('${r.tabId}','${r.secId}','${r.itemId||''}')">
+        <div class="search-item-tab">${esc(r.tabName)}</div>
+        <div class="search-item-title">${highlight(r.title, q)}</div>
+        ${r.preview ? `<div class="search-item-preview">${highlight(r.preview, q)}</div>` : ''}
+      </div>`).join('');
+  }
+  searchResults.style.display = 'block';
+}
+
+function highlight(text, q) {
+  const escaped = esc(text);
+  const escapedQ = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return escaped.replace(new RegExp(escapedQ, 'gi'), m => `<mark>${m}</mark>`);
+}
+
+function jumpTo(tabId, secId, itemId) {
+  searchResults.style.display = 'none'; searchInput.value = '';
+  switchTab(tabId);
+  setTimeout(() => {
+    const target = document.getElementById(itemId ? 'item_' + itemId : 'sec_' + secId);
+    if(target) { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); target.classList.add('highlight-section'); setTimeout(() => target.classList.remove('highlight-section'), 2000); }
+  }, 100);
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+render();
+updateSaveBtn();
+</script>
+
+
+</body></html>
