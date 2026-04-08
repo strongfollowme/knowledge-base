@@ -1843,7 +1843,7 @@ ANPR ポート: 80
 入库起始id设置大一点：600；
 入库结束id设置为刚好：522；
 3.保存，等待新的车辆入库后，确认di跳到了最新起始id600，则把结束id调到对应最大值。
-出库id也一样。</div>
+出库id重复的时候也一样。</div>
     </div>
     <div class="item-actions">
       <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t2','s13','xsc7qcvi')">
@@ -2290,39 +2290,45 @@ wevtutil qe System /q:"*[System[Level=1 or Level=2]]" /f:text /rd:true /c:10
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modalBox">
-    <div class="modal-title" id="modalTitle">➕ 新增知识点</div>
+    <div class="modal-title" id="modalTitle">✏️ 编辑知识点</div>
     <div id="modalBody">
     <div class="modal-label">标题</div>
-    <input class="modal-input" id="m_itemTitle" value="" placeholder="简短标题">
+    <input class="modal-input" id="m_itemTitle" value="出入库id重复问题" placeholder="简短标题">
     <div class="modal-label">内容</div>
     
-  <div class="editor-toolbar" id="toolbar_m_itemContent_add">
-    <button class="tb-btn" type="button" onclick="tbCode('m_itemContent_add')" title="代码">
+  <div class="editor-toolbar" id="toolbar_m_itemContent_edit">
+    <button class="tb-btn" type="button" onclick="tbCode('m_itemContent_edit')" title="代码">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
       代码
     </button>
-    <button class="tb-btn" type="button" onclick="tbLink('m_itemContent_add')" title="链接">
+    <button class="tb-btn" type="button" onclick="tbLink('m_itemContent_edit')" title="链接">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
       链接
     </button>
     <div class="tb-sep"></div>
-    <button class="tb-btn" type="button" onclick="tbOrder('m_itemContent_add')" title="有序列表">
+    <button class="tb-btn" type="button" onclick="tbOrder('m_itemContent_edit')" title="有序列表">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>
       序号
     </button>
     <div class="tb-sep"></div>
-    <button class="tb-btn" type="button" onclick="tbShowTableBuilder('m_itemContent_add')" title="插入表格">
+    <button class="tb-btn" type="button" onclick="tbShowTableBuilder('m_itemContent_edit')" title="插入表格">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M3 15h18M9 3v18"></path></svg>
       表格
     </button>
   </div>
-    <textarea class="modal-textarea has-toolbar" id="m_itemContent_add"></textarea>
-    <div id="tableBuilderContainer_m_itemContent_add" style="display:none"></div></div>
-    <div class="modal-actions" id="modalActions"><button class="btn btn-secondary">取消</button><button class="btn btn-primary">新增</button></div>
+    <textarea class="modal-textarea has-toolbar" id="m_itemContent_edit">假设入库id重复：
+1.当前入库id为522；
+2.TPE或者对应摄像头id配置里：
+入库起始id设置大一点：600；
+入库结束id设置为刚好：522；
+3.保存，等待新的车辆入库后，确认di跳到了最新起始id600，则把结束id调到对应最大值。
+出库id也一样。</textarea>
+    <div id="tableBuilderContainer_m_itemContent_edit" style="display:none"></div></div>
+    <div class="modal-actions" id="modalActions"><button class="btn btn-secondary">取消</button><button class="btn btn-primary">保存</button></div>
   </div>
 </div>
 
-<div id="toast" class="">已新增知识点</div>
+<div id="toast" class="">已保存</div>
 
 <script>
 // ─── DATA ────────────────────────────────────────────────────────────────────
@@ -2527,7 +2533,7 @@ const DEFAULT_DATA = [
           {
             "id": "xsc7qcvi",
             "title": "出入库id重复问题",
-            "content": "假设入库id重复：\n1.当前入库id为522；\n2.TPE或者对应摄像头id配置里：\n入库起始id设置大一点：600；\n入库结束id设置为刚好：522；\n3.保存，等待新的车辆入库后，确认di跳到了最新起始id600，则把结束id调到对应最大值。\n出库id也一样。"
+            "content": "假设入库id重复：\n1.当前入库id为522；\n2.TPE或者对应摄像头id配置里：\n入库起始id设置大一点：600；\n入库结束id设置为刚好：522；\n3.保存，等待新的车辆入库后，确认di跳到了最新起始id600，则把结束id调到对应最大值。\n出库id重复的时候也一样。"
           }
         ]
       },
@@ -2780,47 +2786,48 @@ async function saveToGitHub(cfg) {
   const btn = document.getElementById('saveFileBtn');
   const status = document.getElementById('saveStatus');
   if(btn) { btn.classList.remove('dirty'); btn.classList.add('saving'); btn.textContent = '保存中…'; }
+  if(status) status.textContent = '上传中…';
 
   try {
     const dataStr = JSON.stringify(data, null, 2);
+    // Build new HTML with updated data
+    const html = document.documentElement.outerHTML;
+    const startMarker = '/* DATA_START */';
+    const endMarker = '/* DATA_END */';
+    const startIdx = html.indexOf(startMarker);
+    const endIdx = html.indexOf(endMarker);
+    let newHtml;
+    if(startIdx !== -1 && endIdx !== -1) {
+      newHtml = html.substring(0, startIdx + startMarker.length) + '\nconst DEFAULT_DATA = ' + dataStr + ';\n' + html.substring(endIdx);
+    } else {
+      newHtml = html;
+    }
+
     const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.path}`;
     const headers = { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
 
-    // ① GitHub から現在のファイルを取得（SHA と生の内容を両方取る）
-    const getRes = await fetch(apiUrl, { headers });
+    // Get current file SHA (needed for update)
     let sha = null;
-    let baseHtml = '';
+    const getRes = await fetch(apiUrl, { headers });
     if(getRes.ok) {
       const fileInfo = await getRes.json();
       sha = fileInfo.sha;
-      // base64 → 文字列に戻す
-      baseHtml = decodeURIComponent(escape(atob(fileInfo.content.replace(/\n/g, ''))));
     }
 
-    // ② マーカー間のデータを置換（outerHTML を使わず、GitHub上のファイルを直接編集）
-    const startMarker = '/* DATA_START */';
-    const endMarker = '/* DATA_END */';
-    const startIdx = baseHtml.indexOf(startMarker);
-    const endIdx = baseHtml.indexOf(endMarker);
-
-    let newHtml;
-    if(startIdx !== -1 && endIdx !== -1) {
-      newHtml = baseHtml.substring(0, startIdx + startMarker.length)
-              + '\nconst DEFAULT_DATA = ' + dataStr + ';\n'
-              + baseHtml.substring(endIdx);
-    } else {
-      throw new Error('マーカーが見つかりません。ファイルが壊れている可能性があります。');
-    }
-
-    // ③ 書き込み
+    // Encode content to base64
     const encoded = btoa(unescape(encodeURIComponent(newHtml)));
-    const body = { message: '📝 更新知識库', content: encoded };
+
+    const body = { message: '📝 更新知识库', content: encoded };
     if(sha) body.sha = sha;
 
     const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+
     if(putRes.ok) {
       _dirty = false;
-      if(btn) { btn.classList.remove('saving','dirty'); btn.innerHTML = '...保存'; }
+      if(btn) {
+        btn.classList.remove('saving', 'dirty');
+        btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> 保存';
+      }
       if(status) { status.textContent = '✓ 已保存到 GitHub'; setTimeout(() => { if(!_dirty && status) status.textContent = ''; }, 3000); }
       showToast('✓ 已保存到 GitHub！');
     } else {
@@ -2828,7 +2835,11 @@ async function saveToGitHub(cfg) {
       throw new Error(err.message || `HTTP ${putRes.status}`);
     }
   } catch(e) {
-    if(btn) { btn.classList.remove('saving'); btn.classList.add('dirty'); btn.innerHTML = '保存'; }
+    if(btn) {
+      btn.classList.remove('saving');
+      btn.classList.add('dirty');
+      btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> 保存';
+    }
     if(status) status.textContent = '✗ 保存失败';
     showToast('✗ 保存失败：' + e.message);
   }
@@ -3646,4 +3657,4 @@ updateSaveBtn();
 </script>
 
 
-<div id="immersive-translate-popup" style="all: initial"></div><div id="immersive-translate-popup" style="all: initial"></div><div id="immersive-translate-popup" style="all: initial"></div></body><div id="immersive-translate-popup" style="all: initial"></div></html>
+<div id="immersive-translate-popup" style="all: initial"></div><div id="immersive-translate-popup" style="all: initial"></div><div id="immersive-translate-popup" style="all: initial"></div><div id="immersive-translate-popup" style="all: initial"></div></body><div id="immersive-translate-popup" style="all: initial"></div></html>
