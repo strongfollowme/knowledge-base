@@ -2780,48 +2780,47 @@ async function saveToGitHub(cfg) {
   const btn = document.getElementById('saveFileBtn');
   const status = document.getElementById('saveStatus');
   if(btn) { btn.classList.remove('dirty'); btn.classList.add('saving'); btn.textContent = '保存中…'; }
-  if(status) status.textContent = '上传中…';
 
   try {
     const dataStr = JSON.stringify(data, null, 2);
-    // Build new HTML with updated data
-    const html = document.documentElement.outerHTML;
-    const startMarker = '/* DATA_START */';
-    const endMarker = '/* DATA_END */';
-    const startIdx = html.indexOf(startMarker);
-    const endIdx = html.indexOf(endMarker);
-    let newHtml;
-    if(startIdx !== -1 && endIdx !== -1) {
-      newHtml = html.substring(0, startIdx + startMarker.length) + '\nconst DEFAULT_DATA = ' + dataStr + ';\n' + html.substring(endIdx);
-    } else {
-      newHtml = html;
-    }
-
     const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.path}`;
     const headers = { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
 
-    // Get current file SHA (needed for update)
-    let sha = null;
+    // ① GitHub から現在のファイルを取得（SHA と生の内容を両方取る）
     const getRes = await fetch(apiUrl, { headers });
+    let sha = null;
+    let baseHtml = '';
     if(getRes.ok) {
       const fileInfo = await getRes.json();
       sha = fileInfo.sha;
+      // base64 → 文字列に戻す
+      baseHtml = decodeURIComponent(escape(atob(fileInfo.content.replace(/\n/g, ''))));
     }
 
-    // Encode content to base64
-    const encoded = btoa(unescape(encodeURIComponent(newHtml)));
+    // ② マーカー間のデータを置換（outerHTML を使わず、GitHub上のファイルを直接編集）
+    const startMarker = '/* DATA_START */';
+    const endMarker = '/* DATA_END */';
+    const startIdx = baseHtml.indexOf(startMarker);
+    const endIdx = baseHtml.indexOf(endMarker);
 
-    const body = { message: '📝 更新知识库', content: encoded };
+    let newHtml;
+    if(startIdx !== -1 && endIdx !== -1) {
+      newHtml = baseHtml.substring(0, startIdx + startMarker.length)
+              + '\nconst DEFAULT_DATA = ' + dataStr + ';\n'
+              + baseHtml.substring(endIdx);
+    } else {
+      throw new Error('マーカーが見つかりません。ファイルが壊れている可能性があります。');
+    }
+
+    // ③ 書き込み
+    const encoded = btoa(unescape(encodeURIComponent(newHtml)));
+    const body = { message: '📝 更新知識库', content: encoded };
     if(sha) body.sha = sha;
 
     const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
-
     if(putRes.ok) {
       _dirty = false;
-      if(btn) {
-        btn.classList.remove('saving', 'dirty');
-        btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> 保存';
-      }
+      if(btn) { btn.classList.remove('saving','dirty'); btn.innerHTML = '...保存'; }
       if(status) { status.textContent = '✓ 已保存到 GitHub'; setTimeout(() => { if(!_dirty && status) status.textContent = ''; }, 3000); }
       showToast('✓ 已保存到 GitHub！');
     } else {
@@ -2829,11 +2828,7 @@ async function saveToGitHub(cfg) {
       throw new Error(err.message || `HTTP ${putRes.status}`);
     }
   } catch(e) {
-    if(btn) {
-      btn.classList.remove('saving');
-      btn.classList.add('dirty');
-      btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> 保存';
-    }
+    if(btn) { btn.classList.remove('saving'); btn.classList.add('dirty'); btn.innerHTML = '保存'; }
     if(status) status.textContent = '✗ 保存失败';
     showToast('✗ 保存失败：' + e.message);
   }
