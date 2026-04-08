@@ -1120,7 +1120,7 @@ mark { background: rgba(43,126,240,0.15); color: var(--accent); border-radius: 2
   </div>
 </div>
 
-<div class="tabs-container" id="tabsBar"><button class="tab-btn" data-id="t1" draggable="true">
+<div class="tabs-container" id="tabsBar"><button class="tab-btn active" data-id="t1" draggable="true">
       <span class="tab-label">【TDG関する】</span>
       <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t1')">
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -1140,7 +1140,7 @@ mark { background: rgba(43,126,240,0.15); color: var(--accent); border-radius: 2
       <span class="tab-label">【工事基準】</span>
       <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t5')">
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-      </button></button><button class="tab-btn active" data-id="t6" draggable="true">
+      </button></button><button class="tab-btn" data-id="t6" draggable="true">
       <span class="tab-label">【開発問題】</span>
       <button class="tab-edit-btn" title="编辑/删除" onclick="event.stopPropagation(); openTabEdit('t6')">
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -1148,7 +1148,7 @@ mark { background: rgba(43,126,240,0.15); color: var(--accent); border-radius: 2
     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
   </button></div>
 
-<div class="main" id="mainContent"><div class="tab-panel" id="panel_t1">
+<div class="main" id="mainContent"><div class="tab-panel active" id="panel_t1">
       <div class="panel-header">
         <div class="panel-title"><div class="panel-title-dot"></div><span>【TDG関する】</span></div>
         <button class="add-section-btn" onclick="openAddSection('t1')">
@@ -1215,7 +1215,7 @@ mark { background: rgba(43,126,240,0.15); color: var(--accent); border-radius: 2
       <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
       <div class="k-section-title">2. QRコード割引券発行ツール設定（二维码优惠券打印工具）</div>
       <div class="k-section-actions">
-        <span class="item-count">2</span>
+        <span class="item-count">3</span>
         <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s2')">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
         </button>
@@ -1265,6 +1265,28 @@ mark { background: rgba(43,126,240,0.15); color: var(--accent); border-radius: 2
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
       </button>
       <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s2','i4')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_xos78hps" data-id="xos78hps" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">発券機 関連APP操作</div>
+      <div class="item-content">1. 发券机相关app在Google网盘的app下面
+2. app里设定停车场id、名称、发券个数后，点「出力」
+3. 输出图片中修改A卷为外来券、F券为驻车无料券
+4. 选择「发送给下一个应用」，再发送给发券机
+5. 取消二次发送确认
+
+発券機管理 → セキュリティ → 設定パスワード: 9824</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s2','xos78hps')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s2','xos78hps')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s2','xos78hps')">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
       </button>
     </div></div></div></div><div class="k-section" id="sec_s3" data-id="s3">
@@ -1425,7 +1447,7 @@ net accounts /maxpwage:unlimited</div>
       <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
       <div class="k-section-title">6. 発券機 関連APP操作</div>
       <div class="k-section-actions">
-        <span class="item-count">1</span>
+        <span class="item-count">0</span>
         <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t1','s5')">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
         </button>
@@ -1440,29 +1462,7 @@ net accounts /maxpwage:unlimited</div>
         </button>
       </div>
     </div>
-    <div class="k-items" id="items_s5"><div class="k-item" id="item_i11" data-id="i11" draggable="true">
-    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
-    <div class="item-body">
-      <div class="item-title">操作流程</div>
-      <div class="item-content">1. 发券机相关app在Google网盘的app下面
-2. app里设定停车场id、名称、发券个数后，点「出力」
-3. 输出图片中修改A卷为外来券、F券为驻车无料券
-4. 选择「发送给下一个应用」，再发送给发券机
-5. 取消二次发送确认
-
-発券機管理 → セキュリティ → 設定パスワード: 9824</div>
-    </div>
-    <div class="item-actions">
-      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t1','s5','i11')">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-      </button>
-      <button class="icon-btn" title="编辑" onclick="openEditItem('t1','s5','i11')">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-      </button>
-      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t1','s5','i11')">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
-      </button>
-    </div></div></div></div><div class="k-section" id="sec_s6" data-id="s6">
+    <div class="k-items" id="items_s5"><div class="empty-state" style="padding:14px">暂无知识点，点击 + 添加</div></div></div><div class="k-section" id="sec_s6" data-id="s6">
     <div class="k-section-header" draggable="true" data-secid="s6" data-tabid="t1">
       <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
       <div class="k-section-title">7. カメラサーバー写真取得できない問題</div>
@@ -1987,6 +1987,58 @@ ANPR ポート: 80
       <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t4','s16','i24')">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
       </button>
+    </div></div></div></div><div class="k-section" id="sec_xwrq3klj" data-id="xwrq3klj">
+    <div class="k-section-header" draggable="true" data-secid="xwrq3klj" data-tabid="t4">
+      <div class="drag-handle"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+      <div class="k-section-title">关于paypay支付和parking pay支付的设定</div>
+      <div class="k-section-actions">
+        <span class="item-count">2</span>
+        <button class="icon-btn add" title="新增知识点" onclick="openAddItem('t4','xwrq3klj')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+        <button class="icon-btn move" title="移动整个标题到其他分类" onclick="openMoveSection('t4','xwrq3klj')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+        </button>
+        <button class="icon-btn" title="编辑标题" onclick="openEditSection('t4','xwrq3klj')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+        <button class="icon-btn danger" title="删除标题" onclick="confirmDeleteSection('t4','xwrq3klj')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="k-items" id="items_xwrq3klj"><div class="k-item" id="item_x57uhl6f" data-id="x57uhl6f" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">paypay</div>
+      <div class="item-content">直接在远隔系统对应停车场的【動作設定】页面中开启paypay支付即可</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t4','xwrq3klj','x57uhl6f')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t4','xwrq3klj','x57uhl6f')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t4','xwrq3klj','x57uhl6f')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
+    </div></div><div class="k-item" id="item_xhsqam7w" data-id="xhsqam7w" draggable="true">
+    <div class="item-drag"><svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></div>
+    <div class="item-body">
+      <div class="item-title">parking pay</div>
+      <div class="item-content">在远隔对应停车场的【動作設定】页面中开启parking pay即可，另外需要山脇さん那边进行有效化才行。</div>
+    </div>
+    <div class="item-actions">
+      <button class="icon-btn move" title="迁移到其他标签" onclick="openMoveItem('t4','xwrq3klj','xhsqam7w')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <button class="icon-btn" title="编辑" onclick="openEditItem('t4','xwrq3klj','xhsqam7w')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t4','xwrq3klj','xhsqam7w')">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+      </button>
     </div></div></div></div></div></div><div class="tab-panel" id="panel_t5">
       <div class="panel-header">
         <div class="panel-title"><div class="panel-title-dot"></div><span>【工事基準】</span></div>
@@ -2035,7 +2087,7 @@ ANPR ポート: 80
       <button class="icon-btn danger" title="删除" onclick="confirmDeleteItem('t5','s17','i25')">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
       </button>
-    </div></div></div></div></div></div><div class="tab-panel active" id="panel_t6">
+    </div></div></div></div></div></div><div class="tab-panel" id="panel_t6">
       <div class="panel-header">
         <div class="panel-title"><div class="panel-title-dot"></div><span>【開発問題】</span></div>
         <button class="add-section-btn" onclick="openAddSection('t6')">
@@ -2199,39 +2251,13 @@ wevtutil qe System /q:"*[System[Level=1 or Level=2]]" /f:text /rd:true /c:10
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modalBox">
-    <div class="modal-title" id="modalTitle">➕ 新增知识点</div>
-    <div id="modalBody">
-    <div class="modal-label">标题</div>
-    <input class="modal-input" id="m_itemTitle" value="" placeholder="简短标题">
-    <div class="modal-label">内容</div>
-    
-  <div class="editor-toolbar" id="toolbar_m_itemContent_add">
-    <button class="tb-btn" type="button" onclick="tbCode('m_itemContent_add')" title="代码">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-      代码
-    </button>
-    <button class="tb-btn" type="button" onclick="tbLink('m_itemContent_add')" title="链接">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-      链接
-    </button>
-    <div class="tb-sep"></div>
-    <button class="tb-btn" type="button" onclick="tbOrder('m_itemContent_add')" title="有序列表">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>
-      序号
-    </button>
-    <div class="tb-sep"></div>
-    <button class="tb-btn" type="button" onclick="tbShowTableBuilder('m_itemContent_add')" title="插入表格">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M3 15h18M9 3v18"></path></svg>
-      表格
-    </button>
-  </div>
-    <textarea class="modal-textarea has-toolbar" id="m_itemContent_add"></textarea>
-    <div id="tableBuilderContainer_m_itemContent_add" style="display:none"></div></div>
-    <div class="modal-actions" id="modalActions"><button class="btn btn-secondary">取消</button><button class="btn btn-primary">新增</button></div>
+    <div class="modal-title" id="modalTitle">⚠️ 确认删除</div>
+    <div id="modalBody"><p style="color:var(--text-muted)">确定要删除知识点「<strong style="color:var(--text)">操作流程</strong>」吗？</p></div>
+    <div class="modal-actions" id="modalActions"><button class="btn btn-secondary">取消</button><button class="btn btn-danger">确认删除</button></div>
   </div>
 </div>
 
-<div id="toast" class="">已新增知识点</div>
+<div id="toast" class="">已删除</div>
 
 <script>
 // ─── DATA ────────────────────────────────────────────────────────────────────
@@ -2270,6 +2296,11 @@ const DEFAULT_DATA = [
             "id": "i4",
             "title": "设定内容",
             "content": "駐車場番号: 2613\n割引タイプ: 料金割引（金额优惠）\n券種A: 60分, 0円 → 外来用户使用（默认优惠200日元）\n券種B: 0分, 0円 → 可自定义\n券種C: 0分, 0円 → 可自定义\n券種D: 0分, 0円"
+          },
+          {
+            "id": "xos78hps",
+            "title": "発券機 関連APP操作",
+            "content": "1. 发券机相关app在Google网盘的app下面\n2. app里设定停车场id、名称、发券个数后，点「出力」\n3. 输出图片中修改A卷为外来券、F券为驻车无料券\n4. 选择「发送给下一个应用」，再发送给发券机\n5. 取消二次发送确认\n\n発券機管理 → セキュリティ → 設定パスワード: 9824"
           }
         ]
       },
@@ -2318,13 +2349,7 @@ const DEFAULT_DATA = [
       {
         "id": "s5",
         "title": "6. 発券機 関連APP操作",
-        "items": [
-          {
-            "id": "i11",
-            "title": "操作流程",
-            "content": "1. 发券机相关app在Google网盘的app下面\n2. app里设定停车场id、名称、发券个数后，点「出力」\n3. 输出图片中修改A卷为外来券、F券为驻车无料券\n4. 选择「发送给下一个应用」，再发送给发券机\n5. 取消二次发送确认\n\n発券機管理 → セキュリティ → 設定パスワード: 9824"
-          }
-        ]
+        "items": []
       },
       {
         "id": "s6",
@@ -2483,6 +2508,22 @@ const DEFAULT_DATA = [
             "id": "i24",
             "title": "定期作業",
             "content": "毎月、FTPのアップロードパスを手動で再設定する必要があります。\n設定しない場合、写真ファイルが開けなくなる問題が発生します。\n（每月必须手动重新设置FTP上传路径，否则会出现照片文件无法打开的问题）"
+          }
+        ]
+      },
+      {
+        "id": "xwrq3klj",
+        "title": "关于paypay支付和parking pay支付的设定",
+        "items": [
+          {
+            "id": "x57uhl6f",
+            "title": "paypay",
+            "content": "直接在远隔系统对应停车场的【動作設定】页面中开启paypay支付即可"
+          },
+          {
+            "id": "xhsqam7w",
+            "title": "parking pay",
+            "content": "在远隔对应停车场的【動作設定】页面中开启parking pay即可，另外需要山脇さん那边进行有效化才行。"
           }
         ]
       }
@@ -3534,4 +3575,4 @@ updateSaveBtn();
 </script>
 
 
-</body><div id="immersive-translate-popup" style="all: initial"></div></html>
+<div id="immersive-translate-popup" style="all: initial"></div></body><div id="immersive-translate-popup" style="all: initial"></div></html>
