@@ -2790,37 +2790,37 @@ async function saveToGitHub(cfg) {
 
   try {
     const dataStr = JSON.stringify(data, null, 2);
-    // Build new HTML with updated data
-    const html = document.documentElement.outerHTML;
-    const startMarker = '/* DATA_START */';
-    const endMarker = '/* DATA_END */';
-    const startIdx = html.indexOf(startMarker);
-    const endIdx = html.indexOf(endMarker);
-    let newHtml;
-    if(startIdx !== -1 && endIdx !== -1) {
-      newHtml = html.substring(0, startIdx + startMarker.length) + '\nconst DEFAULT_DATA = ' + dataStr + ';\n' + html.substring(endIdx);
-    } else {
-      newHtml = html;
-    }
-
     const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.path}`;
     const headers = { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
 
-    // Get current file SHA (needed for update)
-    let sha = null;
+    // ① 从 GitHub 拉取当前文件（同时获取 SHA 和文件内容）
     const getRes = await fetch(apiUrl, { headers });
-    if(getRes.ok) {
-      const fileInfo = await getRes.json();
-      sha = fileInfo.sha;
+    if(!getRes.ok) throw new Error(`获取文件失败：HTTP ${getRes.status}`);
+    const fileInfo = await getRes.json();
+    const sha = fileInfo.sha;
+    const baseHtml = decodeURIComponent(escape(atob(fileInfo.content.replace(/\n/g, ''))));
+
+    // ② 用标记符精准替换数据段
+    const startMarker = '/* DATA_START */';
+    const endMarker = '/* DATA_END */';
+    const startIdx = baseHtml.indexOf(startMarker);
+    const endIdx = baseHtml.indexOf(endMarker);
+
+    if(startIdx === -1 || endIdx === -1) {
+      throw new Error('找不到数据标记符，请检查 GitHub 上的文件是否完整。');
     }
 
-    // Encode content to base64
+    const newHtml = baseHtml.substring(0, startIdx + startMarker.length)
+                  + '\nconst DEFAULT_DATA = ' + dataStr + ';\n'
+                  + baseHtml.substring(endIdx);
+
+    // ③ 推送到 GitHub
     const encoded = btoa(unescape(encodeURIComponent(newHtml)));
-
-    const body = { message: '📝 更新知识库', content: encoded };
-    if(sha) body.sha = sha;
-
-    const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+    const putRes = await fetch(apiUrl, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ message: '📝 更新知识库', content: encoded, sha })
+    });
 
     if(putRes.ok) {
       _dirty = false;
