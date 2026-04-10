@@ -2670,6 +2670,17 @@ const DEFAULT_DATA = [
             "content": "方法1：事件查看器（最直接）\n按 Win + X → 选择「事件查看器」\n左侧展开：Windows日志 → 系统\n右侧点击「筛选当前日志」\n事件级别勾选：严重、错误\n找死机时间点附近的红色错误记录\n\n方法2：蓝屏转储文件（如果是蓝屏死机）\n按 Win + R 输入：\n%SystemRoot%\\Minidump\n里面有 .dmp 文件，文件名包含日期\n可以用免费工具 WhoCrashed 打开分析，会直接告诉你是哪个驱动或程序导致的\n\n方法3：可靠性监视器（最简单直观）\n搜索栏输入「可靠性监视器」打开\n会显示一个时间轴，红色X就是崩溃点\n点击对应日期可以看详细描述\n\n方法4：CMD快速查看\n管理员运行CMD，输入：\nwevtutil qe System /q:\"*[System[Level=1 or Level=2]]\" /f:text /rd:true /c:10\n显示最近10条严重错误。"
           }
         ]
+      },
+      {
+        "id": "xywwanz0",
+        "title": "Linux文件权限问题",
+        "items": [
+          {
+            "id": "x3yqbarl",
+            "title": "Linux文件夹权限问题",
+            "content": "# 🛡️ Linux 共享文件夹：防误删、防越权的终极安全配置指南\n\n**目标需求：**\n1. **顶级目录 (`/data/share`)**：员工只能看、只能进，绝对不能新建、改名、删除或移动。\n2. **核心业务文件夹 (`/data/share/Report`)**：\n    * 员工可以在里面**自由新建**文件和文件夹。\n    * 员工只能**编辑、删除、移动自己建的**文件。\n    * 员工**绝对不能**动别人建的文件。\n    * 员工**绝对不能**把整个 `Report` 文件夹拖走或删掉。\n\n---\n\n## 🟢 第一阶段：用户与群组管理（查、建、加）\n\n在分配权限前，必须建立一个统一的用户组，以便于后续精准赋权。\n\n### 1. 查看现有系统状态\n*   **看所有真实用户：** `cat /etc/passwd`（拉到最下面看）。\n*   **看所有群组：** `cat /etc/group`。\n*   **看某个员工属于什么组：**\n    ```bash\n    groups yamamoto\n    # 输出示例：yamamoto : yamamoto developers users\n    ```\n\n### 2. 创建统一业务群组\n假设我们为负责该业务的员工创建一个名为 `jpm_staff` 的群组。\n```bash\nsudo groupadd jpm_staff\n```\n\n### 3. 将员工加入群组（支持单人与批量）\n你可以根据实际情况选择以下任一方式，将员工拉入 `jpm_staff` 组。\n\n*   **方式 A：单人追加（极度安全）**\n    *   **注意：** 必须带 `-aG`（追加），漏掉 `-a` 会导致用户脱离原有组，造成其他系统故障！\n    ```bash\n    sudo usermod -aG jpm_staff yamamoto\n    ```\n*   **方式 B：全新建组后的批量覆盖（最快）**\n    *   适合刚建好组，第一次把几十个人拉进来。名单用**逗号**隔开，不要加空格。\n    ```bash\n    sudo gpasswd -M yamamoto,ito,sato,suzuki jpm_staff\n    ```\n*   **方式 C：已有成员时的批量追加（安全高效）**\n    *   适合组里已经有人了，今天又来了几个新员工。名单用**空格**隔开。\n    ```bash\n    for user in tanaka nakamura; do sudo usermod -aG jpm_staff $user; done\n    ```\n\n*验证一下：* 再次运行 `groups yamamoto`，确认 `jpm_staff` 已出现。\n\n---\n\n## 🟡 第二阶段：终极安全目录权限设置（实操核心）\n\n现在我们有了 `jpm_staff` 群组，接下来开始对目录进行“上锁”和“赋魔”。\n\n### 步骤 1：处理顶级大目录（给大厅上锁）\n假设顶级目录是 `/data/share`。我们只允许员工“路过”，不允许他们在这里乱堆东西或拆房子。\n\n```bash\n# 1. 移交大目录所有权：所有者为 root，群组为 jpm_staff\nsudo chown root:jpm_staff \"/data/share\"\n\n# 2. 设置权限为 755：\n# root(7): 随便弄； jpm_staff(5): 只能读(r)和进(x)； 其他人(5): 只能读(r)和进(x)\nsudo chmod 755 \"/data/share\"\n```\n\n### 步骤 2：处理受保护的子文件夹（核心操作）\n假设受保护的核心文件夹叫 `Report`（路径：`/data/share/Report`）。\n\n**A. 转移所有权：**\n确保该文件夹的拥有者是 `root`，群组是 `jpm_staff`。\n```bash\nsudo chown root:jpm_staff \"/data/share/Report\"\n```\n\n**B. 施加终极魔法权限（Sticky Bit + SGID）：**\n用这一句命令，解决你所有的烦恼：\n```bash\nsudo chmod 3775 \"/data/share/Report\"\n```\n\n---\n\n## 🧐 第三阶段：解读那句 `chmod 3775` 到底施了什么魔法？\n\n数字 `3775` 由两部分组成：前面的 `3`（特殊权限）和后面的 `775`（基础权限）。\n\n### 1. 基础权限 `775` 意味着什么？\n*   **所有者 (root) `7`**：拥有全部（读、写、执行）权限。\n*   **群组 (jpm_staff) `7`**：拥有全部（读、写、执行）权限。这就是员工能在里面新建文件的原因。\n*   **其他人 (others) `5`**：只能读和执行（进入）。\n\n*但是，光有 `775` 极度危险！因为员工有写(w)权限，他们依然可以删掉别人建的文件，甚至把整个文件夹拖走。*\n\n### 2. 特殊权限 `3` 意味着什么？（魔法所在）\n这个 `3` 其实是 `1 (Sticky Bit)` + `2 (SGID)` 的超强组合。\n\n*   **魔法一：SGID (`+s`，对应数字 2) —— 强制继承群组**\n    *   **效果：** 当 `yamamoto` 在此文件夹新建一个文件 `报告.docx` 时，该文件的所属群组会被强制盖章为 `jpm_staff`（而不是他私人的 `yamamoto` 组）。\n    *   **意义：** 这保证了同属 `jpm_staff` 组的 `ito` 也能顺利打开和共同编辑这个文件，打破了 Linux 默认的私有壁垒。\n*   **魔法二：Sticky Bit 粘滞位 (`+t`，对应数字 1) —— 防删除/防移动保护罩**\n    *   **效果：** 这个权限下达了死命令：**在这个文件夹里，谁建的文件，只有谁（以及 root）能删。**\n    *   **意义：** 即使 `ito` 拥有 `775` 的写权限，当他手滑试图删除或拖走 `yamamoto` 建的 `报告.docx` 时，系统会无情地报错：**“Permission denied（权限被拒绝）”**。"
+          }
+        ]
       }
     ]
   }
