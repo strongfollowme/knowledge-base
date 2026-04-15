@@ -2399,11 +2399,6 @@ const DEFAULT_DATA = [
             "id": "i9",
             "title": "密码过期与凭据设置",
             "content": "ユーザー: jpm2000user\nパスワード: Lq5yMaCU\n\n设置无限期密码（管理员CMD）:\n管理者でコマンドプロンプトを開いて\nnet accounts /maxpwage:unlimited"
-          },
-          {
-            "id": "i10",
-            "title": "数据无法和远隔互通的情况下可能是下面的问题",
-            "content": "子機で凭据管理器设置\n打开「控制面板」→「凭据管理器」(認証情報マネージャー)\n点击「Windows 凭据」→「添加 Windows 凭据」\n地址: 192.168.10.10\n用户名: jpm2000user\n密码: Lq5yMaCU\n点击确定保存\n\n然后是親PC共享文件夹ThumbnailFolder，具体操作可以看下面的\nhttps://www.xiaohongshu.com/explore/68949eea000000002203bae1?xsec_token=ABMgud36koh59UIrs0jdK3Qu3aoaza81q8JtYUvzMm8C4=&xsec_source=pc_search&source=web_explore_feed\n\n最后子機要把该共享文件设置为S盘"
           }
         ]
       },
@@ -2442,17 +2437,11 @@ const DEFAULT_DATA = [
             "id": "xvecezxa",
             "title": "2000精算机远隔没有精算机版本",
             "content": "👉 核心问题不是你前面问的网络/权限，而是：\n❗ SSH密钥路径错了\n原因链条👇\n1️⃣ DB连接依赖\n👉 jpm2000user + SSH密钥\n2️⃣ 但用户目录创建机制是：\n👉 不登录 → 不生成用户目录\n3️⃣ 你们执行流程可能是：\n👉 先copy密钥 → 再创建用户\n4️⃣ Windows行为：\n👉 会重新生成一个不同路径的用户目录\n5️⃣ 结果：\n👉 SSH密钥不在正确目录\n👉 → DB连接异常 / 取不到数据 / 版本取不到\n\n🧾 一句话总结\n👉\n因为用户目录创建顺序问题，导致SSH密钥放错位置，从而引发连接异常。\n\n\n👉 已修复：\n调整了处理逻辑\n新版本安装包：260318版本\n✔ 自动创建用户目录（不需要登录）\n✔ 避免路径错位问题"
-          }
-        ]
-      },
-      {
-        "id": "s9",
-        "title": "10. 一般需要重置或者简单恢复的情况",
-        "items": [
+          },
           {
-            "id": "i15",
-            "title": "适用场景",
-            "content": "① 相机跨很大的版本升级\n② 标准版本升级到定制版本 / 定制版本升级到标准版本"
+            "id": "i10",
+            "title": "数据无法和远隔互通的情况下可能是下面的问题",
+            "content": "子機で凭据管理器设置\n打开「控制面板」→「凭据管理器」(認証情報マネージャー)\n点击「Windows 凭据」→「添加 Windows 凭据」\n地址: 192.168.10.10\n用户名: jpm2000user\n密码: Lq5yMaCU\n点击确定保存\n\n然后是親PC共享文件夹ThumbnailFolder，具体操作可以看下面的\nhttps://www.xiaohongshu.com/explore/68949eea000000002203bae1?xsec_token=ABMgud36koh59UIrs0jdK3Qu3aoaza81q8JtYUvzMm8C4=&xsec_source=pc_search&source=web_explore_feed\n\n最后子機要把该共享文件设置为S盘"
           }
         ]
       },
@@ -2556,6 +2545,17 @@ const DEFAULT_DATA = [
             "id": "i23",
             "title": "处理步骤",
             "content": "1. 设置相同的出入库开始/结束ID\n2. 当有新的车辆出入库改变ID后，修改为正确ID"
+          }
+        ]
+      },
+      {
+        "id": "s9",
+        "title": "10. 一般需要重置或者简单恢复的情况",
+        "items": [
+          {
+            "id": "i15",
+            "title": "适用场景",
+            "content": "① 相机跨很大的版本升级\n② 标准版本升级到定制版本 / 定制版本升级到标准版本"
           }
         ]
       }
