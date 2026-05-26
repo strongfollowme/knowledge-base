@@ -2445,6 +2445,11 @@ const DEFAULT_DATA = [
             "id": "xfeyyuuh",
             "title": "精算机金额时间错误的话",
             "content": "启动TSWrite，リセット精算机等基板重启。"
+          },
+          {
+            "id": "xfmeicmr",
+            "title": "camserver报错",
+            "content": "问题：\nRecievedL1024] : b'POST /test HTTP/1.1¥rHost: 192. 168.10.10:3000%r nAccept: text/html, appl icat ion/html+xml, /r2026/05/10Accept -Lansuase: zh-CNrrUser-Asent: Mozi l la/5.0 (compat ible; MSIE 9.0: Windows NT 6. 1; WOW64; Trident/5.0)YrnAcceptEncodins: 8z ip, def latertnComnect ion: Keep-Al iverrCache-Cont rol : no-cacher nContent-Lenath: 1272783 rnContent-Type2026/05/10multipart/form-data; boundary=-158d56f9a5653d8c¥r¥n¥r¥n-158d56f9a5653d2026/04/27rnContent-Disposit ign: form data; name= \"ANPR.xnl \": filename ANPR. xml rnContent -Type: text/xnl ¥rYnro<?xml versio2026/04/27\"1.0\" encodins= \"UTF-8\"?>rn<EventNot if icat ionAlert version-\"2.0\" xmlns= \"http://ww. std-csi.con/ver20/ML Schema\">¥rn2026/04/27pAddress>192. 168. 10.120</ipAddress>¥rn<ipv6Address>f001::c001:40</ipv6Adress>r n<portNo>8000/portNo>rn<protoco1>HTP</protocol>rnmacAddress>e8: a0:ed: 26: da: 4c</macAddress>rn<charnel ID>17/channelD>rndateT ime>2026-05-19T10:58:2026/04/147+09: 00</dateTine>rnact ivePost Count>1</act ivePost Count>rnevent Type> ANPR</event Type> rn<event State>act ive</eventS2026/04/14ate>rn<eventDescr'2026/04/14raceback (most recent calI last):Fline 88, in handle_client000camserver950.py,l ine 359, in loadsjson¥_init_.py ,3son¥decoder.py'ine 337,in decodeine 355,ileson¥decoder.py,in raw_decodeison. decoder. JSONDecodeError: Expect ing vaTue: I ine 1 column 1 (char 0)\n\n主要原因：\nJSON通信じゃなくて\nAPI叩いてるような感じですね（HTTPアクセス？）\n想定：TCP＋JSON\n来ているもの：HTTP POST＋JSON\n\n解决方法："
           }
         ]
       },
