@@ -2427,14 +2427,9 @@ const DEFAULT_DATA = [
             "content": "1.\n固定ルートが設定されてなさそうです。\n管理员CMD执行:\nroute -p add 192.168.3.0 mask 255.255.255.0 192.168.0.1\n\n2.\n检查停车场出入库id位数是否对的上，有可能出入库id位数对不上导致找不到图片。\n950是8位id，2000是9位id"
           },
           {
-            "id": "xvecezxa",
-            "title": "2000精算机远隔没有精算机版本",
-            "content": "👉 核心问题不是你前面问的网络/权限，而是：\n❗ SSH密钥路径错了\n原因链条👇\n1️⃣ DB连接依赖\n👉 jpm2000user + SSH密钥\n2️⃣ 但用户目录创建机制是：\n👉 不登录 → 不生成用户目录\n3️⃣ 你们执行流程可能是：\n👉 先copy密钥 → 再创建用户\n4️⃣ Windows行为：\n👉 会重新生成一个不同路径的用户目录\n5️⃣ 结果：\n👉 SSH密钥不在正确目录\n👉 → DB连接异常 / 取不到数据 / 版本取不到\n\n🧾 一句话总结\n👉\n因为用户目录创建顺序问题，导致SSH密钥放错位置，从而引发连接异常。\n\n\n👉 已修复：\n调整了处理逻辑\n新版本安装包：260318版本\n✔ 自动创建用户目录（不需要登录）\n✔ 避免路径错位问题"
-          },
-          {
-            "id": "i10",
-            "title": "数据无法和远隔互通的情况下可能是下面的问题",
-            "content": "①\n子機で凭据管理器设置\n打开「控制面板」→「凭据管理器」(認証情報マネージャー)\n点击「Windows 凭据」→「添加 Windows 凭据」\n地址: 192.168.10.10\n用户名: jpm2000user\n密码: Lq5yMaCU\n点击确定保存\n\n然后是親PC共享文件夹ThumbnailFolder，具体操作可以看下面的\nhttps://www.xiaohongshu.com/explore/68949eea000000002203bae1?xsec_token=ABMgud36koh59UIrs0jdK3Qu3aoaza81q8JtYUvzMm8C4=&xsec_source=pc_search&source=web_explore_feed\n\n最后子機要把该共享文件设置为S盘\n\n②\n如果是精算机正常接受数据，唯独远隔系统没有车辆数据。\n且精算机出现如下异常：\n`xception in thread Thread-2 (thread_paymech):\nraceback (most recent call last):\nFile \"threading py , , line 1073, in_bootstrap_inner\n, in run File \"threading.py\", line 1010,\nFile ,camserver950.py a line 282, in thread_paymech\nFile \"camserver950.py\", line 224, in process_pool\nFile \"tinydb\"database.py\" line 268, in _len_\nFile \"tinydb\"table.py\" line 6:45, in _len_\nFile \"tinydb\"table.py\", I line 704, in_read_table\nFile \"tinydb\"storages.py\", , line 136, in read\nFile \"json\"_init_.py\", , line 293, in load\nFile \"json\"_init_py , line 346, in loads\nFile \"json/decoder.py\", line 340, in decode\nson.decoder.JSONDecodeError: Ext ra data: line 1 column 17 (char 16)\n订接続しました:192.168.10.130:41029\n]切断されました:192.168.10.130:41029`\n\n解决方法：\n👉确认JPM的カメラサーバー目录下polo文件是否有空白或者异常字符串。"
+            "id": "xgk3b1jl",
+            "title": "网页打开车辆照片时报\"图像服务器通信异常\"",
+            "content": "错误原因总结\n问题： `网页打开车辆照片时报\"图像服务器通信异常\"`，重新刷新页面后才可以正常查看照片\n根本原因： 摄像头与精算机时间不同步\n过程：\n\n照片已存在于本地 /GateIO/459/\nFTP 通过 MDTM 命令比较两边文件时间戳\n因时间不同步，判断为\"文件有更新\"→ 触发重新下载\n下载过程中网页同时读取该文件 → 读写冲突 → 报错\n\n解决方向： 同步摄像头与精算机的系统时间"
           },
           {
             "id": "i12",
@@ -2442,14 +2437,19 @@ const DEFAULT_DATA = [
             "content": "1. 先确认路径是否正确，不正确就修改TPE或者路径\n2. 确认主机防火墙是否关闭\n3. 确认子机是否能够访问主机文件夹"
           },
           {
+            "id": "xfeyyuuh",
+            "title": "精算机金额时间错误的话",
+            "content": "启动TSWrite，リセット精算机等基板重启。"
+          },
+          {
             "id": "x8qg9x0w",
             "title": "PA文件是有密码",
             "content": "👉\nPA文件是有密码保护的压缩包/文件\n密码：jpm\n原因：防止被杀毒软件或系统误删"
           },
           {
-            "id": "xfeyyuuh",
-            "title": "精算机金额时间错误的话",
-            "content": "启动TSWrite，リセット精算机等基板重启。"
+            "id": "xvecezxa",
+            "title": "2000精算机远隔没有精算机版本",
+            "content": "👉 核心问题不是你前面问的网络/权限，而是：\n❗ SSH密钥路径错了\n原因链条👇\n1️⃣ DB连接依赖\n👉 jpm2000user + SSH密钥\n2️⃣ 但用户目录创建机制是：\n👉 不登录 → 不生成用户目录\n3️⃣ 你们执行流程可能是：\n👉 先copy密钥 → 再创建用户\n4️⃣ Windows行为：\n👉 会重新生成一个不同路径的用户目录\n5️⃣ 结果：\n👉 SSH密钥不在正确目录\n👉 → DB连接异常 / 取不到数据 / 版本取不到\n\n🧾 一句话总结\n👉\n因为用户目录创建顺序问题，导致SSH密钥放错位置，从而引发连接异常。\n\n\n👉 已修复：\n调整了处理逻辑\n新版本安装包：260318版本\n✔ 自动创建用户目录（不需要登录）\n✔ 避免路径错位问题"
           },
           {
             "id": "xfmeicmr",
@@ -2457,9 +2457,9 @@ const DEFAULT_DATA = [
             "content": "问题：\nRecievedL1024] : b'POST /test HTTP/1.1¥rHost: 192. 168.10.10:3000%r nAccept: text/html, appl icat ion/html+xml, /r2026/05/10Accept -Lansuase: zh-CNrrUser-Asent: Mozi l la/5.0 (compat ible; MSIE 9.0: Windows NT 6. 1; WOW64; Trident/5.0)YrnAcceptEncodins: 8z ip, def latertnComnect ion: Keep-Al iverrCache-Cont rol : no-cacher nContent-Lenath: 1272783 rnContent-Type2026/05/10multipart/form-data; boundary=-158d56f9a5653d8c¥r¥n¥r¥n-158d56f9a5653d2026/04/27rnContent-Disposit ign: form data; name= \"ANPR.xnl \": filename ANPR. xml rnContent -Type: text/xnl ¥rYnro<?xml versio2026/04/27\"1.0\" encodins= \"UTF-8\"?>rn<EventNot if icat ionAlert version-\"2.0\" xmlns= \"http://ww. std-csi.con/ver20/ML Schema\">¥rn2026/04/27pAddress>192. 168. 10.120</ipAddress>¥rn<ipv6Address>f001::c001:40</ipv6Adress>r n<portNo>8000/portNo>rn<protoco1>HTP</protocol>rnmacAddress>e8: a0:ed: 26: da: 4c</macAddress>rn<charnel ID>17/channelD>rndateT ime>2026-05-19T10:58:2026/04/147+09: 00</dateTine>rnact ivePost Count>1</act ivePost Count>rnevent Type> ANPR</event Type> rn<event State>act ive</eventS2026/04/14ate>rn<eventDescr'2026/04/14raceback (most recent calI last):Fline 88, in handle_client000camserver950.py,l ine 359, in loadsjson¥_init_.py ,3son¥decoder.py'ine 337,in decodeine 355,ileson¥decoder.py,in raw_decodeison. decoder. JSONDecodeError: Expect ing vaTue: I ine 1 column 1 (char 0)\n\n主要原因：\nJSON通信じゃなくて\nAPI叩いてるような感じですね（HTTPアクセス？）\n想定：TCP＋JSON\n来ているもの：HTTP POST＋JSON\n\n解决方法：\n估计是旧的camserver，换一个新版本的"
           },
           {
-            "id": "xgk3b1jl",
-            "title": "网页打开车辆照片时报\"图像服务器通信异常\"",
-            "content": "错误原因总结\n问题： `网页打开车辆照片时报\"图像服务器通信异常\"`\n根本原因： 摄像头与精算机时间不同步\n过程：\n\n照片已存在于本地 /GateIO/459/\nFTP 通过 MDTM 命令比较两边文件时间戳\n因时间不同步，判断为\"文件有更新\"→ 触发重新下载\n下载过程中网页同时读取该文件 → 读写冲突 → 报错\n\n解决方向： 同步摄像头与精算机的系统时间"
+            "id": "i10",
+            "title": "数据无法和远隔互通的情况下可能是下面的问题",
+            "content": "①\n子機で凭据管理器设置\n打开「控制面板」→「凭据管理器」(認証情報マネージャー)\n点击「Windows 凭据」→「添加 Windows 凭据」\n地址: 192.168.10.10\n用户名: jpm2000user\n密码: Lq5yMaCU\n点击确定保存\n\n然后是親PC共享文件夹ThumbnailFolder，具体操作可以看下面的\nhttps://www.xiaohongshu.com/explore/68949eea000000002203bae1?xsec_token=ABMgud36koh59UIrs0jdK3Qu3aoaza81q8JtYUvzMm8C4=&xsec_source=pc_search&source=web_explore_feed\n\n最后子機要把该共享文件设置为S盘\n\n②\n如果是精算机正常接受数据，唯独远隔系统没有车辆数据。\n且精算机出现如下异常：\n`xception in thread Thread-2 (thread_paymech):\nraceback (most recent call last):\nFile \"threading py , , line 1073, in_bootstrap_inner\n, in run File \"threading.py\", line 1010,\nFile ,camserver950.py a line 282, in thread_paymech\nFile \"camserver950.py\", line 224, in process_pool\nFile \"tinydb\"database.py\" line 268, in _len_\nFile \"tinydb\"table.py\" line 6:45, in _len_\nFile \"tinydb\"table.py\", I line 704, in_read_table\nFile \"tinydb\"storages.py\", , line 136, in read\nFile \"json\"_init_.py\", , line 293, in load\nFile \"json\"_init_py , line 346, in loads\nFile \"json/decoder.py\", line 340, in decode\nson.decoder.JSONDecodeError: Ext ra data: line 1 column 17 (char 16)\n订接続しました:192.168.10.130:41029\n]切断されました:192.168.10.130:41029`\n\n解决方法：\n👉确认JPM的カメラサーバー目录下polo文件是否有空白或者异常字符串。"
           }
         ]
       },
