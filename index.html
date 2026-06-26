@@ -2781,6 +2781,22 @@ const DEFAULT_DATA = [
             "content": "`function onEdit(e) {\n  const sheet = e.source.getActiveSheet();\n  \n  // 只在\"問題管理表\"生效，其他sheet直接跳过\n  if (sheet.getName() !== \"問題管理表\") return;\n  \n  const row = e.range.getRow();\n  const col = e.range.getColumn();\n  \n  if (col >= 1 && col <= 7 && row > 1) {\n    const now = new Date();\n    const timeStr = Utilities.formatDate(now, \"Asia/Tokyo\", \"yyyy-MM-dd HH:mm:ss\");\n    \n    if (!sheet.getRange(row, 8).getValue()) {\n      sheet.getRange(row, 8).setValue(timeStr);\n    }\n    \n    sheet.getRange(row, 9).setValue(timeStr);\n  }\n}`"
           }
         ]
+      },
+      {
+        "id": "xck4opgu",
+        "title": "扫码储物柜",
+        "items": [
+          {
+            "id": "xzco8li0",
+            "title": "串口和波特率问题",
+            "content": "确认端口（COM口）：\n右键“此电脑” -> “管理” -> “设备管理器” -> “端口（COM和LPT）”。\n拔掉再插上扫码头，看哪个 COM 号消失又出现（例如是 COM3）。这就是它的端口号。\n\n确认波特率：\n下载一个串口调试助手（如：SSCOM）。\n在工具里选择刚才看到的 COM X。\n依次尝试不同的波特率（从 9600 开始，不行换 115200，再换 19200）。\n测试方法： 每换一个波特率，点“打开串口”，然后扫一个码。\n如果出来的是乱码：说明端口对了，但波特率错了。\n如果出来的是 0D6D9A9A214140CF：波特率就是正确的。"
+          },
+          {
+            "id": "ximas830",
+            "title": "设备关联",
+            "content": "这是一个非常棒的问题，你点到了跨平台硬件开发最核心的痛点：Windows 的 COM 口编号和安卓的设备路径完全是两码事。\n\n在 Windows 上你看到的 COM3 只是一个逻辑编号，而在安卓（基于 Linux 内核）中，它是一个文件路径。\n\n怎么写代码才能让它在安卓上跑通？\n你不能在代码里死记硬背 COM3。在安卓开发中，确认端口和波特率的代码逻辑通常分为以下三步：\n\n第一步：通过 VID 和 PID 来“找人”，而不是“找地址”\n不管是在 Windows 还是安卓，每一个 USB 硬件都有两个全球唯一的身份证号：\n\nVID (Vendor ID)： 厂家 ID\n\nPID (Product ID)： 产品 ID\n\n代码逻辑：\n\n代码运行时，先扫描安卓设备上所有连接的 USB 设备。\n\n遍历这些设备，看看哪个设备的 VID 和 PID 符合你的扫码头（比如说明书厂家 Honor Way 的 ID）。\n\n只要 VID/PID 对上了，它就是你的扫码头，不管系统把它分配到了哪个端口路径。\n\n怎么查 VID/PID？\n把扫码头插在电脑上，在“设备管理器”里右键该设备 -> 属性 -> 详细信息 -> 硬件 ID。你会看到类似 USB\\VID_AAAA&PID_BBBB 的数字。\n第二步：安卓代码如何定位“端口路径”？\n在确认了 VID/PID 之后，安卓系统会给这个设备分配一个文件路径。\n\n如果你的 App 使用了标准的安卓 USB 转串口库（如 usb-serial-for-android）：\n你不需要知道路径，库会直接返回一个 UsbDevice 对象，你直接对它调用 open() 即可。\n\n如果你是写底层的原生代码（NDK）：\n你会发现它可能叫 /dev/ttyUSB0、/dev/ttyUSB1 或者 /dev/ttyACM0。\n\n专业做法： 代码里写一个循环尝试。先试 ttyUSB0，如果不通再试 ttyACM0。\n\n第三步：波特率（Baud Rate）—— 必须“硬约定”\n波特率是扫码头说话的速度，它是不随系统改变的物理属性。\n如果扫码头在 Windows 上测出来是 9600 才能出字，那么：\n\n在安卓代码里： 你必须强制设置波特率为 9600。\n\n代码示例（伪代码逻辑）：\n\ncode\nJava\nSerialPort port = device.open(); // 第一步找出的设备\nport.setParameters(9600, 8, 1, 0); // 这里的9600必须和硬件匹配\nport.startListening(); // 开始监听数据\n给开发人员的终极建议：\n既然你要写代码关联这个扫码头，不要从零开始写。请直接在 GitHub 搜索并使用这个库：\nusb-serial-for-android\n\n为什么用它？\n\n自动识别驱动： 它内置了 CH340, CP2102, PL2303 等几乎所有扫码头常用的转换芯片驱动。\n\n不分端口： 它通过刚才说的 VID/PID 枚举方式找设备，你根本不需要去管什么 COM3 还是 ttyUSB0。\n\n跨设备兼容： 这套代码写好后，无论你插在华为平板、三星平板还是工业安卓一体机上，只要 VID/PID 没变，它都能自动连上。\n\n总结你现在该做的：\n在电脑上测波特率： 按你刚才说的方法，确认扫码头到底是 9600 还是 115200（这一步是为了确定代码里的参数）。\n\n在电脑上查 VID/PID： 记下这两个 4 位 16 进制数（这一步是为了确定代码里“找谁”）。\n\n代码实现： 告诉开发人员：“设备 VID 是 XXXX，PID 是 YYYY，波特率定死为 9600，请用串口监听模式开发，不要用键盘模式。”\n\n这样写出来的 App，只要扫码头一插上去，“滴”的一声，数据就会直接进到你的后台处理逻辑，屏幕上完全不需要输入栏。"
+          }
+        ]
       }
     ]
   }
