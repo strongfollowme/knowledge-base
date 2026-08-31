@@ -2424,7 +2424,7 @@ const DEFAULT_DATA = [
           {
             "id": "i14",
             "title": "950精算机远隔无法打开图片 解决方法",
-            "content": "1. 照片传输与路由排查（FTP 通信失败）\n\n步骤 A：重置静态路由（在管理员 CMD 中执行）\n\n如果提示路由已存在但依然不通，建议先删后加，确保路由正确绑定到当前网卡：\n\n:: 1. 先删除旧的路由\nroute delete 192.168.3.0\n\n:: 2. 重新添加永久静态路由\nroute -p add 192.168.3.0 mask 255.255.255.0 192.168.0.1\n\n步骤 B：将网卡类型修改为“专用 (Private)”（在管理员 PowerShell 中执行）\n\n由于未识别的网络默认是 Public，会被防火墙直接拦截，必须强制改为 Private。\n\n:: 1. 查询当前所有网卡类型\nGet-NetConnectionProfile\n\n:: 2. 将名为 \"イーサネット\" 的网卡强制修改为 Private\nSet-NetConnectionProfile -InterfaceAlias \"イーサネット\" -NetworkCategory Private\n\n(第 2 项保持不变：)\n\n2. ID位数校验\n\n检查停车场出入库 ID 位数是否对得上，有可能出入库 ID 位数对不上导致找不到图片。\n\n  - 950 现场：8 位 ID\n  - 2000 现场：9 位 ID"
+            "content": "1. 照片传输与路由排查（FTP 通信失败）\n\n步骤 A：重置静态路由（在管理员 CMD 中执行）\n\n如果提示路由已存在但依然不通，建议先删后加，确保路由正确绑定到当前网卡：\n\n:: 1. 先删除旧的路由\nroute delete 192.168.3.0\n\n:: 2. 重新添加永久静态路由\nroute -p add 192.168.3.0 mask 255.255.255.0 192.168.0.1\n\n步骤 B：将网卡类型修改为“专用 (Private)”（在管理员 PowerShell 中执行）\n\n由于未识别的网络默认是 Public，会被防火墙直接拦截，必须强制改为 Private。\n\n:: 1. 查询当前所有网卡类型\nGet-NetConnectionProfile\n\n:: 2. 将名为 \"イーサネット\" 的网卡强制修改为 Private\nSet-NetConnectionProfile -InterfaceAlias \"イーサネット\" -NetworkCategory Private\n\n(第 2 项保持不变：)\n`但是有可能网络定期重置会导致再次回到publish，推荐下面的方式`\n通过“本地安全策略”修改（推荐，最直观）\n此方法适用于 Windows Pro / Enterprise / Server 系统。\n按下快捷键 Win + R 键打开“运行”窗口，输入 secpol.msc 并回车，打开本地安全策略[6][7]。\n在左侧导航栏中，依次点击展开：\nセキュリティの設定（安全设置） ➔ ネットワーク リスト マネージャー ポリシー（网络列表管理器策略）[8]。\n在右侧列表中，双击打开 識別されていないネットワーク（未识别的网络）[6][8]。\n将 場所の種類（位置类型） 从“未構成（未配置）”或“パブリック（公用）”修改为 プライベート（专用）[8][9]。\n点击“確定（确定）”并保存退出[6][8]。\n\n2. ID位数校验\n\n检查停车场出入库 ID 位数是否对得上，有可能出入库 ID 位数对不上导致找不到图片。\n\n  - 950 现场：8 位 ID\n  - 2000 现场：9 位 ID"
           },
           {
             "id": "xgk3b1jl",
