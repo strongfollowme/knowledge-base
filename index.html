@@ -2485,7 +2485,7 @@ const DEFAULT_DATA = [
           {
             "id": "x2yqifh2",
             "title": "数据库检索",
-            "content": "`SELECT * FROM parkdb.tbl_pool WHERE car_number_full LIKE '%和泉 588 と 0125%';`\n`SELECT * FROM parkdb.tbl_pool WHERE car_number_4 = 125;`\n`SELECT * FROM parkdb.tbl_pool WHERE park_id = 10000;`\n`DELETE FROM parkdb.tbl_pool WHERE  park_id=10000;`"
+            "content": "`SELECT * FROM parkdb.tbl_pool WHERE car_number_full LIKE '%和泉 588 と 0125%';`\n`SELECT * FROM parkdb.tbl_pool WHERE car_number_4 = 125;`\n----------------------------------------------------------------\n删除错误的parking ID 10000数据\nSELECT * FROM parkdb.tbl_pool WHERE park_id = 10000;\nDELETE FROM parkdb.tbl_pool WHERE  park_id=10000;\nSELECT * FROM parkdb.tbl_inout_jnl WHERE park_id = 10000;\nDELETE FROM parkdb.tbl_inout_jnl WHERE  park_id=10000;\nSELECT * FROM parkdb.tbl_seisan_jnl WHERE park_id = 10000;\nDELETE FROM parkdb.tbl_seisan_jnl WHERE  park_id=10000;\nSELECT * FROM parkdb.tbl_use_journal WHERE park_id = 10000;\nDELETE FROM parkdb.tbl_use_journal WHERE  park_id=10000;"
           }
         ]
       }
