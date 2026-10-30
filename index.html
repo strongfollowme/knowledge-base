@@ -2498,6 +2498,17 @@ const DEFAULT_DATA = [
             "content": "`SELECT * FROM parkdb.tbl_pool WHERE car_number_full LIKE '%和泉 588 と 0125%';`\n`SELECT * FROM parkdb.tbl_pool WHERE car_number_4 = 125;`\n----------------------------------------------------------------\n删除错误的parking ID 10000数据\nSELECT * FROM parkdb.tbl_pool WHERE park_id = 10000;\nDELETE FROM parkdb.tbl_pool WHERE  park_id=10000;\nSELECT * FROM parkdb.tbl_inout_jnl WHERE park_id = 10000;\nDELETE FROM parkdb.tbl_inout_jnl WHERE  park_id=10000;\nSELECT * FROM parkdb.tbl_seisan_jnl WHERE park_id = 10000;\nDELETE FROM parkdb.tbl_seisan_jnl WHERE  park_id=10000;\nSELECT * FROM parkdb.tbl_use_journal WHERE park_id = 10000;\nDELETE FROM parkdb.tbl_use_journal WHERE  park_id=10000;"
           }
         ]
+      },
+      {
+        "id": "xnk4f0ny",
+        "title": "2000现场问题",
+        "items": [
+          {
+            "id": "x47dipz6",
+            "title": "2000親PC的PA设定",
+            "content": "[MainProc]\nLogEnable=1(親アプリのメイン処理のログを取る場合は1)\n较新版本的，親PC的PA设定，遵循local.ini解说要求。\n1.下面的2个是必须追加的，SyukkoByNumber4是出库时，末尾4位数字模糊匹配最近精算的车辆绑定的功能。\nLogEnable=1\nSyukkoByNumber4=1"
+          }
+        ]
       }
     ]
   },
